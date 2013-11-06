@@ -1,0 +1,39 @@
+{
+  "name": "SMMApp",
+  "version": "2.0.0",
+  "description": "Saint Mary's Mobile App, Version 2.0",
+  "author": "Glavin Wiechert <glavin.wiechert@gmail.com>",
+  "website": {
+    "url": "cs.smu.ca"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Glavin001/SMMApp2.git"
+  },
+  "private": true,
+  "dependencies": {
+    "express": "3.0.6",
+    "stylus": "0.31.0",
+    "jade": "0.27.7",
+    "mongodb": "1.2.7",
+    "moment": "1.7.2",
+    "emailjs": "0.3.3"
+  },
+  "engines": {
+    "node": "0.8.14",
+    "npm": "1.1.65"
+  },
+  "bugs": {
+    "url": "https://github.com/Glavin001/SMMApp2/issues"
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mobile",
+    "app"
+  ],
+  "license": "BSD"
+}

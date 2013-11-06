@@ -1,15 +1,11 @@
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
+# Swap (Vim)
+*~
+*.swp
+*.swo
 
-pids
-logs
-results
-
+# Node.js
 npm-debug.log
 node_modules
+
+# Mac
+.DS_Store
