@@ -28,3 +28,8 @@ To start the server app execute the following:
 ```bash
 node app.js
 ```
+#### Custom Port Number
+To start the server app with a custom port number, such as `8081`, execute the following:
+```bash
+node app.js -p 8081
+```
