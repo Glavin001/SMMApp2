@@ -3,13 +3,16 @@ SMMApp2
 
 Saint Mary's Mobile App, Version 2.0
 
-### Installation
+## History
+SMMApp 1.0 can be found at [github.com/dreid93/smmapp](https://github.com/dreid93/smmapp). We [won](http://www.smu.ca/newsreleases/2013/may/team-smmapps-wins-saint-marys-first-ever-mobile-app-contest-.html) the first [Mobile App Contest at Saint Mary's University](http://www.smu.ca/academic/science/department/mobile-app-contest.html) and SMMApp2 is for the second contest.
+
+## Installation
 Run the following Terminal command.
-#### 1) SSH
+### 1) SSH
 ```bash
 git clone git@github.com:Glavin001/SMMApp2.git && cd SMMApp2 && npm install
 ```
-##### Troubleshooting
+#### Troubleshooting
 If you receive the following error:
 ```bash
 Permission denied (publickey).
@@ -19,16 +22,16 @@ Please make sure you have the correct access rights
 and the repository exists.
 ```
 Then use method 2, `HTTP`, instead.
-#### 2) HTTP
+### 2) HTTP
 ```bash
 git clone https://github.com/Glavin001/SMMApp2.git && cd SMMApp2 && npm install
 ```
-### Run
+## Run
 To start the server app execute the following:
 ```bash
 node app.js
 ```
-#### Custom Port Number
+### Custom Port Number
 To start the server app with a custom port number, such as `8081`, execute the following:
 ```bash
 node app.js -p 8081
