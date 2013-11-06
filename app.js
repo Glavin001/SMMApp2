@@ -11,8 +11,31 @@ var express = require('express');
 var http = require('http');
 var app = express();
 
+// Display command line arguments
+console.log("Usage:")
+console.log("	node app [--port|-p number]");
+console.log()
+
+// Properties
+var port = 8080
+// Process command line arguments
+process.argv.forEach(function (val, index, array) {
+  // Customize port number, "[-p #]"
+  if (val === "-p" || val === "--port") {
+  	//
+  	var newPort = parseInt( array[index+1] );
+  	if (! isNaN(newPort )) {
+  		//console.log("New port #:", newPort);
+  		port = newPort;
+  	} else {
+  		console.error("Invalid custom port number: ", newPort);
+  	}
+  }
+}); 
+
+
 app.configure(function(){
-	app.set('port', 8080);
+	app.set('port', port);
 	app.set('views', __dirname + '/app/server/views');
 	app.set('view engine', 'jade');
 	app.locals.pretty = true;
