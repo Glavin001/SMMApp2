@@ -20,21 +20,27 @@ console.log("Usage:")
 console.log("	node app [--port|-p number]");
 console.log()
 
-// Properties
-var port = 8080
+// Properties, defaults
+var port = 8080; // Server port number
+var production = false; // Default is development
+
 // Process command line arguments
 process.argv.forEach(function (val, index, array) {
-  // Customize port number, "[-p #]"
-  if (val === "-p" || val === "--port") {
-  	//
-  	var newPort = parseInt( array[index+1] );
-  	if (! isNaN(newPort )) {
-  		//console.log("New port #:", newPort);
-  		port = newPort;
-  	} else {
-  		console.error("Invalid custom port number: ", newPort);
-  	}
-  }
+  	// Customize port number, "[-p #]"
+	if (val === "-p" || val === "--port") {
+		// Change port number
+		var newPort = parseInt( array[index+1] );
+		if (! isNaN(newPort )) {
+			//console.log("New port #:", newPort);
+			port = newPort;
+		} else {
+			console.error("Invalid custom port number: ", newPort);
+		}
+	} else 
+	if (val === "--production") {
+		// Is production server, no longer development
+		production = true;
+  	} 
 }); 
 
 // Express middleware that logs all requests.
@@ -72,7 +78,9 @@ app.configure(function(){
 	app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 	app.use(express.static(__dirname + '/app/public'));
 	//
-    app.use(logger); // Here you add your logger to the stack.
+	if (!production) {
+    	app.use(logger); // Add logger to the stack.
+	}
 });
 
 app.configure('development', function(){
@@ -81,8 +89,8 @@ app.configure('development', function(){
 
 require('./app/server/router')(app);
 
-server.listen(app.get('port'), function(){
-	console.log("Express server listening on port " + app.get('port'));
+server.listen(app.get('port'), function() {
+	console.log((production?"Production ":"")+"Express server listening on port " + app.get('port'));
 });
 
 // Socket.io
