@@ -110,4 +110,4 @@ Here is the example from above, now with the added requirement of user login, if
 
 -----
 
-Hopefully this documentation is detailed enough. [Please make a new issue if you have any additional questions.](https://github.com/Glavin001/SMMApp2/issues?labels=question)
+Hopefully this documentation is detailed enough. [If you have any additional questions, please make a new issue and add the `Question` label.](https://github.com/Glavin001/SMMApp2/issues?labels=question)
