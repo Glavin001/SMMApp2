@@ -70,7 +70,14 @@ module.exports = function(app) {
 		});
 	});
 	
-
+	app.get('/offline', function(req, res) {
+		res.render('offline', {
+			title : 'Home',
+			countries : CT,
+			udata : ( req.session.user )
+		});
+	});
+	
 // logged-in user homepage //	
 	app.get('/home', function(req, res) {
 		console.log(req.session.user);
