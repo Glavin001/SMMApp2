@@ -1,7 +1,7 @@
 CACHE MANIFEST
 
 NETWORK:
-http://b.tile.cloudmade.com/*
+
 
 CACHE:
 # Main
@@ -16,6 +16,7 @@ CACHE:
 /vendor/leaflet/leaflet.css
 /vendor/leaflet/leaflet.ie.css
 /vendor/leaflet/images/layers.png
+/vendor/leaflet/images/layers-2x.png
 # Twitter Bootstrap
 /vendor/bootstrap-modal.js
 /vendor/bootstrap-transition.js
@@ -45,4 +46,4 @@ CACHE:
 /socket.io/socket.io.js
 
 FALLBACK:
-/ /404
+/login /404
