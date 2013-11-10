@@ -2,15 +2,19 @@
 	var self = socketController;
 	var url = "/"; 
 	var socket = null;
-	self.getSocket = function () {
+	self.getSocket = function (callback) {
+		if (!io)
+			return;
 		if (!socket) {
 			socket = io.connect(url);
 		}
-		return socket;
+		return callback && callback(socket);
 	};
 
 	// Get the initial socket connection
-	this.socket = self.getSocket();
-
+	self.getSocket(function(socket) {
+		this.socket = socket;
+	});
+	
 	return self;
 })(window.socketController = window.socketController || { } );

@@ -1,4 +1,6 @@
 
+var fs = require("fs");
+
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
@@ -206,7 +208,38 @@ module.exports = function(app) {
 			res.redirect('/print');	
 		});
 	});
-	
+
+	// Handle Appcache request
+	var startTime = new Date();
+	var manifest = null;
+	var getManifest = function(callback) {
+		if (manifest === null) {
+			// Load Manifest file
+			fs.readFile("./app/public/app.manifest", function (err, data) {
+				// Check for error
+				if (err) {
+					console.error("Could not load manifest file.");
+					throw err;
+				}
+				// Alter the manifest file
+				manifest = data + "\n# Server started " + startTime;
+				console.log(manifest);
+				return callback && callback(manifest);
+			});
+		} else {
+			return callback && callback(manifest);
+	  	}
+	};
+	app.get("/appcache", function(req, res) {
+		console.log("App cache");
+		getManifest(function(manifest) {
+			res.header("Content-Type", "text/cache-manifest");
+	  		res.end(manifest);
+		})
+  	});
+  	getManifest(); // Pre-load
+
+
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
 
 };
