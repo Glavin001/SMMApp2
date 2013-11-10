@@ -29,15 +29,17 @@ git clone https://github.com/Glavin001/SMMApp2.git && cd SMMApp2 && npm install
 ```
 
 ## Running App Server
-To start the server app execute the following:
+To start the server app execute the following (default port 8080):
 ```bash
 node app.js
 ```
+In your browser go to [http://localhost:8080/](http://localhost:8080/).
 ### Custom Port Number
 To start the server app with a custom port number, such as `8081`, execute the following:
 ```bash
 node app.js -p 8081
 ```
+In your browser go to [http://localhost:8080/](http://localhost:8080/).
 
 ----
 # Create Your Own Development Branch
