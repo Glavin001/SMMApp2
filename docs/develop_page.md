@@ -80,9 +80,14 @@ Here is a simple GET request handler for your example view.
 ```
 When the user requests the page `/example` Express receives a `GET` request for that resource and it triggers that event handler code shown above.
 You may change the `app.get('/example', function(req, res) { }` to `app.get('/another', function(req, res) { }` handle `another` request.
-Express then calls your [callback function](http://stackoverflow.com/a/9644980) with the arguments `req` and `res` which refer to [request](http://expressjs.com/api.html#req.params) and `response`.
-
-
+Express then calls your [callback function](http://stackoverflow.com/a/9644980) with the arguments `req` and `res` which refer to [request](http://expressjs.com/api.html#req.params) and [response](http://expressjs.com/api.html#res.status).
+You can extract more information about the request from the request variable, `req`, and then output to the user through the response variable, `res`.
+[Rendering a view to the user is as simple as `res.render('filename')`.](http://expressjs.com/api.html#res.render)
+`res.render('example');` will render the view `/app/server/views/example.jade`.
+The Jade template view can use variables that are passed in the second parameter or `res.render`.
+For example, `res.render('example', { title: 'Example title' });` passes the variable `title` to be used in the rendering of the `example.jade` file.
+You can see where it is used in the Jade template `/app/server/layout_nav.jade` with `title #{title}`.
+The `#{title}` is printing the contents of the variable. See [Jade Language Reference for more information](http://jade-lang.com/reference/).
 ##### 3.2) Page Requiring Login
 
 ```javascript
