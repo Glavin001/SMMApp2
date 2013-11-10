@@ -34,7 +34,7 @@ block scripts
 You can add external `CSS` files into `/app/public/css/` with either the extention `.css` or `.styl`. 
 Note that `.styl` is for [Stylus Express middleware](http://learnboost.github.io/stylus/) and allows for more robust CSS. 
 The `.styl` CSS files will be "compiled" into `.css` files when requested, so treat `example.styl` as it's resulting `example.css` file when including.
-You can include a custom CSS file into your Jade view by adding the following line to your `header` block.
+You can include a custom CSS file into your Jade view by adding the following line to your `header` [block](http://www.devthought.com/code/use-jade-blocks-not-layouts/).
 ` link(rel='stylesheet', href='/css/example.css')`
 The resulting `example.jade` is:
 ```jade
@@ -45,7 +45,7 @@ block content
 block scripts
 ```
 External `JavaScript` files into `/app/public/js/`. 
-You can include a custom JavaScript file into your Jade view by adding the following line to your `scripts` block.
+You can include a custom JavaScript file into your Jade view by adding the following line to your `scripts` [block](http://www.devthought.com/code/use-jade-blocks-not-layouts/).
 ` script(src='/js/example.js')`
 The resulting `example.jade` is:
 ```jade
@@ -56,5 +56,7 @@ block content
 block scripts
  script(src='/js/example.js')
 ```
+
+
 #### 3) Configure Router
 
