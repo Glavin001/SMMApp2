@@ -1,3 +1,9 @@
+# For Developers
+
+## Requirements
+- Git
+It is very important to understand how to use Git. If you're not familar please learn more at http://try.github.io/
+- Node.js, http://nodejs.org/
 
 ## Installation
 Run the following Terminal command.
