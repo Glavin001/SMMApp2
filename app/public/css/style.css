@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100%;
   background: #f2f9fe;
   background: -moz-radial-gradient(center, ellipse cover, #f2f9fe 0%, #d6f0fd 100%);
 /* FF3.6+ */

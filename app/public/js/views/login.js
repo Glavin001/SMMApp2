@@ -1,3 +1,4 @@
+//Source: http://stackoverflow.com/a/4656873/2578205 
 // Read a page's GET URL variables and return them as an associative array.
 function getUrlVars()
 {	var loc = window.location.href.indexOf('?');
