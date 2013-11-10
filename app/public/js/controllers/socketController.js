@@ -7,6 +7,12 @@
 			return;
 		if (!socket) {
 			socket = io.connect(url);
+			// bind to socket
+			socket.on('signal', function(data) {
+				if (data.message === "shutdown") {
+					console.info("Server is shutting down for maintenance.");
+				}
+			});
 		}
 		return callback && callback(socket);
 	};

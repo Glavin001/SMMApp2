@@ -126,6 +126,18 @@ server.listen(app.get('port'), function() {
 	console.log((production?"Production ":"")+"Express server listening on port " + app.get('port'));
 });
 
+// Graceful shutdown
+var shutdown = function() {
+  	console.log("Closing SMU Mobile App...");
+  	// Tell all Sockets that server is shutting down.
+  	io.sockets.emit('signal', {'message':'shutdown'});
+  	server.close(); // Close Express
+	console.log(); // New line
+	process.exit(0); // Kill this app process.	 
+};
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
+
 // Socket.io
 io.sockets.on('connection', function (socket) {
 	// 
