@@ -88,16 +88,26 @@ The Jade template view can use variables that are passed in the second parameter
 For example, `res.render('example', { title: 'Example title' });` passes the variable `title` to be used in the rendering of the `example.jade` file.
 You can see where it is used in the Jade template `/app/server/layout_nav.jade` with `title #{title}`.
 The `#{title}` is printing the contents of the variable. See [Jade Language Reference for more information](http://jade-lang.com/reference/).
-##### 3.2) Page Requiring Login
 
+##### 3.2) Page Requiring Login
+It may be desirable to restrict access to a certain page to only users who are logged in.
+This can now be easily achieved with `requiresLogin` function.
+`requiresLogin` takes in three (3) parameters: `request`, `response`, and `callback` for cases where user is already logged in.
+The `callback` takes two (2) parameters: `request`, `response`. 
+Notice the Express `request` and `response` variables are passed along to `requiresLogin` and then onto your callback function.
+Here is the example from above, now with the added requirement of user login, if they are not already logged in.
 ```javascript
-	app.get('/account', function(req, res) {
+	app.get('/example', function(req, res) {
 		requiresLogin(req, res, function(req, res) {
-			res.render('account_settings', {
-				title : 'Control Panel',
+			res.render('example', {
+				title : 'Example title',
 				countries : CT,
 				udata : req.session.user
 			});
 		});
 	});
 ```
+
+-----
+
+Hopefully this documentation is detailed enough. [Please make a new issue if you have any additional questions.](https://github.com/Glavin001/SMMApp2/issues?labels=question)
