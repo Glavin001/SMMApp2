@@ -103,7 +103,7 @@ var getManifest = function(callback) {
 			}
 			// Alter the manifest file
 			manifest = data + "\n# Server started " + startTime;
-			console.log(manifest);
+			//console.log(manifest);
 			return callback && callback(manifest);
 		});
 	} else {
@@ -111,7 +111,7 @@ var getManifest = function(callback) {
   	}
 };
 app.get("/appcache", function(req, res) {
-	console.log("App cache");
+	//console.log("App cache");
 	getManifest(function(manifest) {
 		res.header("Content-Type", "text/cache-manifest");
 			res.end(manifest);
@@ -125,6 +125,18 @@ require('./app/server/router')(app);
 server.listen(app.get('port'), function() {
 	console.log((production?"Production ":"")+"Express server listening on port " + app.get('port'));
 });
+
+// Graceful shutdown
+var shutdown = function() {
+  	console.log("Closing SMU Mobile App...");
+  	// Tell all Sockets that server is shutting down.
+  	io.sockets.emit('signal', {'message':'shutdown'});
+  	server.close(); // Close Express
+	console.log(); // New line
+	process.exit(0); // Kill this app process.	 
+};
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
 
 // Socket.io
 io.sockets.on('connection', function (socket) {

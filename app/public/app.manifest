@@ -1,12 +1,12 @@
 CACHE MANIFEST
 
 NETWORK:
-*
-http://b.tile.cloudmade.com/
+http://b.tile.cloudmade.com/*
 
 CACHE:
 # Main
 /home
+/404
 /css/style.css
 # jQuery
 /vendor/jquery.form.js
@@ -45,4 +45,4 @@ CACHE:
 /socket.io/socket.io.js
 
 FALLBACK:
-
+/ /404
