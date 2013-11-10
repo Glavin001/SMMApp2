@@ -94,6 +94,8 @@ git pull origin master
 
 ## Pushing (Saving) your code to Remote (Github)
 ### 1) Adding your code to your staging area
+*Note that it is acceptable to note have all of your files in your staging area.*
+Only add the files that you have tested and are confident that you want to commit to your staging area.
 ```bash
 git add pathToFile
 ```
@@ -101,11 +103,52 @@ or to add all files
 ```bash
 git add --all
 ```
-### 2) Committing your staging area to your local branch
+### 2) Verifying your staging area
+You have now added files to your staging area. To check the status of your staging area run the following:
+```bash
+git status
+```
+If you have no changes you will see:
+```bash
+# On branch yourname
+nothing to commit, working directory clean
+```
+If you have untracked files you will see the following. If so, see #1 "Adding your code to your staging area". 
+```bash
+# On branch yourname
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	pathToFile1
+#	pathToFile2
+nothing added to commit but untracked files present (use "git add" to track)
+```
+If you have files that have been changed, but not staged to be commited:
+```bash
+# On branch yourname
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   pathToFile1
+#	modified:   pathToFile2
+#
+```
+If you have successfully added your files to your staging area you will see:
+```bash
+# On branch yourname
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   pathToFile1
+#
+```
+
+### 3) Committing your staging area to your local branch
 ```bash
 git commit -m "This is your commit message. Please put valuable and informative information here."
 ```
-### 3) Finally, Pushing to Remote (Github)
+### 4) Finally, Pushing to Remote (Github)
 ```bash
 git push
 ```
@@ -113,10 +156,19 @@ or
 ```bash
 git push origin yourname
 ``` 
-
+Success will look similar to:
+```bash
+Counting objects: 49, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (32/32), done.
+Writing objects: 100% (32/32), 101.31 KiB | 0 bytes/s, done.
+Total 32 (delta 11), reused 0 (delta 0)
+To git@github.com:Glavin001/SMMApp2.git
+   1c3a8f3..0267e0a  yourname -> yourname
+```
 -----
 
-[Post any questions on the Issues page.](https://github.com/Glavin001/SMMApp2/issues?labels=question)
+#### [Post any questions on the Issues page.](https://github.com/Glavin001/SMMApp2/issues?labels=question)
 
 -----
 ### [Next page: Developing a Page](develop_page.md)
