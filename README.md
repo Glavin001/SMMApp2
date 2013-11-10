@@ -6,6 +6,12 @@ Saint Mary's Mobile App, Version 2.0
 ## History
 SMMApp 1.0 can be found at [github.com/dreid93/smmapp](https://github.com/dreid93/smmapp). We [won](http://www.smu.ca/newsreleases/2013/may/team-smmapps-wins-saint-marys-first-ever-mobile-app-contest-.html) the first [Mobile App Contest at Saint Mary's University](http://www.smu.ca/academic/science/department/mobile-app-contest.html) and SMMApp2 is for the second contest.
 
+## Features
+See https://github.com/Glavin001/SMMApp2/issues?labels=feature
+
+## Bugs
+See https://github.com/Glavin001/SMMApp2/issues?labels=bug&state=open
+
 ## Installation
 Run the following Terminal command.
 ### 1) SSH
