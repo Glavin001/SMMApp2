@@ -56,7 +56,43 @@ block content
 block scripts
  script(src='/js/example.js')
 ```
-
+Notice that `/js/example.js` and `/css/example.css` equate to `/app/public/js/example.js` and `/app/public/css/example.styl` respectively.
 
 #### 3) Configure Router
+Now that you have created your new custom view you must [allow Express to "render" your view to your users when requested](http://expressjs.com/api.html#app.render).
+##### 3.1) Basic
+Changes are made inside of `/app/server/router.js` module:
+```javascript
+module.exports = function(app) {
+// existing code....
+// *** PUT NEW CODE HERE ****
+}
+```
+Here is a simple GET request handler for your example view. 
+```javascript
+	app.get('/example', function(req, res) {
+		res.render('example', {
+			title : 'Example Title',
+			countries : CT,
+			udata : req.session.user
+		});
+	});
+```
+When the user requests the page `/example` Express receives a `GET` request for that resource and it triggers that event handler code shown above.
+You may change the `app.get('/example', function(req, res) { }` to `app.get('/another', function(req, res) { }` handle `another` request.
+Express then calls your [callback function](http://stackoverflow.com/a/9644980) with the arguments `req` and `res` which refer to [request](http://expressjs.com/api.html#req.params) and `response`.
 
+
+##### 3.2) Page Requiring Login
+
+```javascript
+	app.get('/account', function(req, res) {
+		requiresLogin(req, res, function(req, res) {
+			res.render('account_settings', {
+				title : 'Control Panel',
+				countries : CT,
+				udata : req.session.user
+			});
+		});
+	});
+```
