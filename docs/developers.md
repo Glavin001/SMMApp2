@@ -39,4 +39,5 @@ To start the server app with a custom port number, such as `8081`, execute the f
 node app.js -p 8081
 ```
 
-[Next page: Developing a Page](develop_page.md)
+-----
+### [Next page: Developing a Page](develop_page.md)
