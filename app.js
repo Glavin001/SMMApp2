@@ -103,7 +103,7 @@ var getManifest = function(callback) {
 			}
 			// Alter the manifest file
 			manifest = data + "\n# Server started " + startTime;
-			console.log(manifest);
+			//console.log(manifest);
 			return callback && callback(manifest);
 		});
 	} else {
@@ -111,7 +111,7 @@ var getManifest = function(callback) {
   	}
 };
 app.get("/appcache", function(req, res) {
-	console.log("App cache");
+	//console.log("App cache");
 	getManifest(function(manifest) {
 		res.header("Content-Type", "text/cache-manifest");
 			res.end(manifest);
