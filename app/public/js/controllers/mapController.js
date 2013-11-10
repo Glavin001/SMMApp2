@@ -4,12 +4,12 @@ var apiKey = "9ac9ffb52a5044958ed21e71aa77805b";
 var smuLocation = L.latLng(44.63132547176038, -63.57957065105438);
 var mapId = "map"; // HTML DOM element with id=mapId
 // Setup map
-var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/'+apiKey+'/997/256/{z}/{x}/{y}.png';
+var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/'+apiKey+'/997@2x/256/{z}/{x}/{y}.png';
 var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
 //     'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
 var normalTileLayer = L.tileLayer(cloudmadeUrl, {
     attribution: cloudmadeAttribution, 
-    maxZoom: 18
+    maxZoom: 19
 });
 /*
 var midnightTileLayer  = L.tileLayer(cloudmadeUrl, {
