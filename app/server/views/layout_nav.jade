@@ -1,0 +1,33 @@
+!!! 5
+html
+	head
+		title #{title}
+		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/style.css')
+	body.hasNavigation
+		//-include github_banner
+		include navbar
+	
+	include modals/alert
+	include modals/confirm
+	
+	block content
+	
+	//- jQuery
+	script(src='/vendor/jquery.min.js')
+	script(src='/vendor/jquery.form.js')
+	//- Bootstrap
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	//- GoInstant
+	//-include goinstant
+	//- Socket.io
+	//-script(src="/socket.io/socket.io.js")	
+	//- Chat
+	//-include chat
+	//- For Account management and logging out	
+	script(src='/js/views/home.js')
+	script(src='/js/controllers/homeController.js')
+	script(src='/js/form-validators/accountValidator.js')
+
+	block scripts

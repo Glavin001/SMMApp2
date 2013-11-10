@@ -1,11 +1,26 @@
+// Read a page's GET URL variables and return them as an associative array.
+function getUrlVars()
+{	var loc = window.location.href.indexOf('?');
+	if (loc === -1) {
+		return { };
+	}
+    var vars = [], hash;
+    var hashes = window.location.href.slice(loc + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = decodeURIComponent(hash[1]);
+    }
+    return vars;
+}
 
-$(document).ready(function(){
+$(document).ready(function() {
 	
 	var lv = new LoginValidator();
 	var lc = new LoginController();
 
-// main login form //
-
+	// main login form //
 	$('#login-form').ajaxForm({
 		beforeSubmit : function(formData, jqForm, options){
 			if (lv.validateForm() == false){
@@ -16,8 +31,9 @@ $(document).ready(function(){
 				return true;
 			}
 		},
-		success	: function(responseText, status, xhr, $form){
-			if (status == 'success') window.location.href = '/home';
+		success	: function(responseText, status, xhr, $form) {
+			var redirect = getUrlVars()["redirect"] || '/home';
+			if (status == 'success') window.location.href = redirect;
 		},
 		error : function(e){
             lv.showLoginError('Login Failure', 'Please check your username and/or password');
@@ -25,10 +41,8 @@ $(document).ready(function(){
 	}); 
 	$('#user-tf').focus();
 	
-// login retrieval form via email //
-	
+	// login retrieval form via email //
 	var ev = new EmailValidator();
-	
 	$('#get-credentials-form').ajaxForm({
 		url: '/lost-password',
 		beforeSubmit : function(formData, jqForm, options){

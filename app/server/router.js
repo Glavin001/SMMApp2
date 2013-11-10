@@ -5,18 +5,37 @@ var EM = require('./modules/email-dispatcher');
 
 module.exports = function(app) {
 
-// main login page //
+	// 
+	var requiresLogin = function (req, res, callback) {
+		if (req.session.user == null){
+			// if user is not logged-in redirect back to login page //
+			res.redirect( "/login?redirect="+encodeURIComponent(req.url) );
+			return;
+	    } else {
+	    	return callback && callback(req, res); // Callback, if successfully logged in.
+	    }
+	};
 
-	app.get('/', function(req, res){
-	// check if the user's credentials are saved in a cookie //
+// 
+	app.get('/', function(req, res) {
+		res.redirect("/home");
+	});
+
+// main login page //
+	app.get('/login', function(req, res) {
+		// check if the user's credentials are saved in a cookie //
 		if (req.cookies.user == undefined || req.cookies.pass == undefined){
 			res.render('login', { title: 'Hello - Please Login To Your Account' });
-		}	else{
-	// attempt automatic login //
+		} else {
+		// attempt automatic login //
 			AM.autoLogin(req.cookies.user, req.cookies.pass, function(o){
 				if (o != null){
 				    req.session.user = o;
-					res.redirect('/home');
+					if (req.query && req.query.redirect) {
+						res.redirect(req.query.redirect);	
+					} else {
+						res.redirect('/home');
+					}
 				}	else{
 					res.render('login', { title: 'Hello - Please Login To Your Account' });
 				}
@@ -24,7 +43,7 @@ module.exports = function(app) {
 		}
 	});
 	
-	app.post('/', function(req, res){
+	app.post('/login', function(req, res){
 		AM.manualLogin(req.param('user'), req.param('pass'), function(e, o){
 			if (!o){
 				res.send(e, 400);
@@ -39,19 +58,25 @@ module.exports = function(app) {
 		});
 	});
 	
-// logged-in user homepage //
-	
-	app.get('/home', function(req, res) {
-	    if (req.session.user == null){
-	// if user is not logged-in redirect back to login page //
-	        res.redirect('/');
-	    }   else{
-			res.render('home', {
+	app.get('/account', function(req, res) {
+		requiresLogin(req, res, function(req, res) {
+			res.render('account_settings', {
 				title : 'Control Panel',
 				countries : CT,
 				udata : req.session.user
 			});
-	    }
+		});
+	});
+	
+
+// logged-in user homepage //	
+	app.get('/home', function(req, res) {
+		console.log(req.session.user);
+		res.render('home', {
+			title : 'Home',
+			countries : CT,
+			udata : ( req.session.user )
+		});
 	});
 	
 	app.post('/home', function(req, res){
@@ -132,7 +157,7 @@ module.exports = function(app) {
 		var passH = req.query["p"];
 		AM.validateResetLink(email, passH, function(e){
 			if (e != 'ok'){
-				res.redirect('/');
+				res.redirect('/login');
 			} else{
 	// save the user's email in a session instead of sending to the client //
 				req.session.reset = { email:email, passHash:passH };

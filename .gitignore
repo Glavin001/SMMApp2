@@ -1,11 +1,23 @@
-# Swap (Vim)
-*~
-*.swp
-*.swo
-
 # Node.js
 npm-debug.log
 node_modules
 
 # Mac
 .DS_Store
+.DS_Store?
+.Splotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Swap (Vim)
+*~
+*.swp
+*.swo
+
+# Node Modules
+node_modules
+
+# Styl resulting CSS
+app/public/css/*.css
+

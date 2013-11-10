@@ -1,0 +1,23 @@
+div.navbar.navbar-fixed-top
+	div.navbar-inner
+		div.container-fluid
+			ul#global-nav.nav.pull-left
+				li
+					a(href='#').brand SMU Mobile
+				li
+					a(href="/home") Home
+				
+			a.btn.btn-danger(href="https://github.com/Glavin001/SMMApp2/issues", target="_blank")
+				| Issues
+
+			span.pull-right
+				if udata && udata.name
+					a.btn.btn-info(href="/account")
+						| @ #{udata.name}
+					button#btn-logout.btn.btn-primary
+						i.icon-lock.icon-white
+						| Sign Out
+				else
+					a.btn.btn-primary(href="/login")
+						i.icon-lock.icon-white
+						| Sign In

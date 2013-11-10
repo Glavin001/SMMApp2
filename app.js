@@ -33,6 +33,11 @@ process.argv.forEach(function (val, index, array) {
   }
 }); 
 
+// Your own super cool function
+var logger = function(req, res, next) {
+    console.log(req.method, req.url);
+    next(); // Passing the request to the next handler in the stack.
+};
 
 app.configure(function(){
 	app.set('port', port);
@@ -47,6 +52,8 @@ app.configure(function(){
 	app.use(express.methodOverride());
 	app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 	app.use(express.static(__dirname + '/app/public'));
+	//
+    app.use(logger); // Here you add your logger to the stack.
 });
 
 app.configure('development', function(){

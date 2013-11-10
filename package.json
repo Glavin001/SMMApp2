@@ -17,7 +17,10 @@
     "jade": "0.27.7",
     "mongodb": "1.2.7",
     "moment": "1.7.2",
-    "emailjs": "0.3.3"
+    "emailjs": "0.3.3",
+    "socket.io": "*",
+    "cookie": "*",
+    "connect": "*"
   },
   "engines": {
     "node": "0.8.14",
