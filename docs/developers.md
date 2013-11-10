@@ -1,9 +1,11 @@
 # For Developers
 
 ## Requirements
-- Git
+#### - Git
+See http://git-scm.com/book/en/Getting-Started-Installing-Git for installation.
 It is very important to understand how to use Git. If you're not familar please learn more at http://try.github.io/
-- Node.js, http://nodejs.org/
+#### - Node.js
+See http://nodejs.org/ for installation and more information.
 
 ## Installation
 Run the following Terminal command.
@@ -25,6 +27,7 @@ Then use method 2, `HTTP`, instead.
 ```bash
 git clone https://github.com/Glavin001/SMMApp2.git && cd SMMApp2 && npm install
 ```
+
 ## Run
 To start the server app execute the following:
 ```bash
