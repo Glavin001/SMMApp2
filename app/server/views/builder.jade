@@ -1,15 +1,14 @@
-extends layout
+extends layout_nav
 
 block header
 	include leaflet.jade
 
 block content
 	div.container(style="height:100%; width:100%;")
-		div#map(style="width:100%; position: absolute; top:0px; bottom:0px;")
+		div#map(style="width:100%; position: absolute; top:40px; bottom:0px;")
 
 block scripts
 	script(src="/js/controllers/mapController.js")
 	script(src="/js/controllers/editorController.js")
 	script(type='text/javascript').
 		editorController.initParent();
-	
