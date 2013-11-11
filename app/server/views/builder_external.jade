@@ -8,6 +8,14 @@ block header
 	script(src="/vendor/codemirror/addon/comment/continuecomment.js")
 	script(src="/vendor/codemirror/addon/comment/comment.js")
 	script(src="/vendor/codemirror/mode/javascript/javascript.js")
+	//- Code folding
+	link(rel='stylesheet', href='/vendor/codemirror/addon/fold/foldgutter.css')
+	script(src="/vendor/codemirror/addon/fold/foldgutter.js")
+	script(src="/vendor/codemirror/addon/fold/foldcode.js")
+	script(src="/vendor/codemirror/addon/fold/brace-fold.js")
+	script(src="/vendor/codemirror/addon/fold/comment-fold.js")
+	script(src="/vendor/codemirror/addon/fold/indent-fold.js")
+	script(src="/vendor/codemirror/addon/fold/xml-fold.js")
 
 block content
 	div.container(style="height:100%; width:100%; padding-right:0px; padding-left:0px;")
@@ -26,7 +34,7 @@ block content
 
 		div.tab-content
 			div.tab-pane.active.fade.in#editor
-				textarea#codeEditor	
+				textarea#codeEditor	{ }
 			div.tab-pane.fade#extras
 				p.well Coming soon.
 		
