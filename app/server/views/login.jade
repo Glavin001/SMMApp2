@@ -1,26 +1,19 @@
 
 extends layout
 
-block content
-	#login-container
-		form( method="post")#login-form.well.span4
-			h1 Welcome to SMMApp!
-			p.subheading Please Login To Your SMMApp Account
-			label Username 
-			input(type="text", name="user", id='user-tf').span4.required
-			label Password
-			input(type="password", name="pass", id='pass-tf').span4.required
-			button(type="submit")#btn-login.btn.btn-primary
-				i.icon-lock.icon-white
-				| Sign in
-			label#remember-me.checkbox Remember Me
-				input(type="checkbox", checked='checked')
-			div.clear-fix
-			hr
-			div.btm-links
-				a(href='#')#forgot-password Forgot Your Password?
-				a(href='/signup')#create-account Create An Account
+block header
+	link(rel='stylesheet', href='/css/signin.css')
 
+block content
+	div.container
+		form(method="post")#login-form.form-signin
+			h2.form-signin-heading Please sign in
+			input.form-control(type="text", placeholder="Email Address", name="user", id='user-tf',required="", autofocus="")
+			input.form-control(type="password", placeholder="Password", name="pass", id='pass-tf')			
+			label.checkbox#remember-me Remember Me
+				input(type="checkbox", checked='checked', value="remember-me")
+			button.btn.btn-lg.btn-primary.btn-block(type="submit") Sign in
+			
 	include modals/alert
 	include modals/lost-password
 
