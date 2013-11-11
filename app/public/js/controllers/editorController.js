@@ -1,6 +1,7 @@
 (function( editorController, undefined ) {
 	var self = editorController;
 	var indentSpaces = 2;
+	var editor = null;
 
 	self.initParent = function() {
 		var myWindow = window.open("/builder-editor","_blank",
@@ -14,7 +15,7 @@
 	self.initChild = function() {
 		console.log('Init child with parent: ', window.opener);
 		var $el = $("#codeEditor");
-		var editor = CodeMirror.fromTextArea($el.get(0), {
+		editor = CodeMirror.fromTextArea($el.get(0), {
 			mode: "application/json",
 			lineNumbers: true,
 			matchBrackets: true,
@@ -29,11 +30,13 @@
 			extraKeys: { "Ctrl-Q": "toggleComment" }
 		});
 
+		// Load existing GeoJSON data
 		$.getJSON("/data/campus.geojson", function(geojsonFeature) {
-			var str = JSON.stringify(geojsonFeature, undefined, indentSpaces);
-			editor.setValue(str);
+			self.loadGeo(geojsonFeature);
 		});
+		self.loadGeo({});
 
+		// Handle resizing
 		function resizeEditor() {
 			var height = $(window).height() - $('.tab-content').offset().top - 1;
 			$('.tab-content').height(height);
@@ -44,6 +47,50 @@
 		    resizeTimer = setTimeout(resizeEditor, 100);
 		});
 		resizeEditor(); // Resize
+
+		// Start auto render
+		var interval = 100;
+		setInterval(function() {
+			// Check if already 
+			if ( $('input.auto-render').prop('checked')  ) {
+				// Render
+				self.render();
+			}
+		}, interval);
+		self.render(); // First render
+		// Render on button press
+		$(".render-btn").click(function() {
+			self.render();
+		});
+	};
+
+	// Load JSON
+	self.loadGeo = function(geo) {
+		var str = JSON.stringify(geo, undefined, indentSpaces);
+		editor.setValue(str);	
+	};
+
+	// Render GeoJSON
+	self.render = function() {
+		var w = window.opener;
+		var map = w.map;
+		var smuLayer = w.smuLayer;
+		// Clear old SMU Layer
+		smuLayer.clearLayers();
+		//map.removeLayer(smuLayer);
+		// Create new GeoJSON Layer
+		//smuLayer = w.L.geoJson();
+		var j = editor.getValue();
+		try {
+			var geojsonFeature = JSON.parse(j);
+			console.log(geojsonFeature);
+			smuLayer.addData(geojsonFeature);
+			// Add Layer to map
+			//smuLayer.addTo(map);
+		} catch(err) {
+			// Parse was unsuccessful
+			console.log("Failed");
+		}
 	};
 
 })(window.editorController = window.editorController || { } );

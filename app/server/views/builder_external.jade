@@ -16,12 +16,19 @@ block content
 				a(href="#editor", data-toggle="tab") Editor
 			li
 				a(href="#extras", data-toggle="tab") Extras
+			li
+				a.btn.btn-success.control-btn.render-btn Render
+			li
+				a.btn
+					label(style="margin-bottom:0px;")
+						input(type="checkbox").auto-render 
+						span Auto-Render
+
 		div.tab-content
 			div.tab-pane.active.fade.in#editor
 				textarea#codeEditor	
 			div.tab-pane.fade#extras
 				p.well Coming soon.
-
 		
 block scripts
 	script(src="/js/controllers/editorController.js")
