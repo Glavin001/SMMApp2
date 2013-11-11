@@ -27,8 +27,13 @@
 			lineWrapping: true,
 			tabMode: "indent",
 			viewportMargin: Infinity,
+		    foldGutter: {
+		    	rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.comment)
+		    },
+		    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
 			extraKeys: { "Ctrl-Q": "toggleComment" }
 		});
+  		//editor.foldCode(CodeMirror.Pos(8, 0));
 
 		// Load existing GeoJSON data
 		$.getJSON("/data/campus.geojson", function(geojsonFeature) {
