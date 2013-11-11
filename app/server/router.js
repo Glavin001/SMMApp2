@@ -77,7 +77,23 @@ module.exports = function(app) {
 			udata : ( req.session.user )
 		});
 	});
-	
+
+	app.get('/builder', function(req, res) {
+		res.render('builder', {
+			title : 'Map Builder',
+			countries : CT,
+			udata : ( req.session.user )
+		});
+	});
+
+	app.get('/builder-editor', function(req, res) {
+		res.render('builder_external', {
+			title : 'Map Builder Editor',
+			countries : CT,
+			udata : ( req.session.user )
+		});
+	});
+
 // logged-in user homepage //	
 	app.get('/home', function(req, res) {
 		console.log(req.session.user);

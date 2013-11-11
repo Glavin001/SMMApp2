@@ -3,22 +3,16 @@
 html
 	head
 		title #{title}
-		meta(name="viewport" content="width=device-width, initial-scale="1.0", maximum-scale="1.0", user-scalable="no") //- For Mobile
-		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
+		meta(name="viewport", content="width=device-width", initial-scale="1.0", maximum-scale="1.0", user-scalable="no") //- For Mobile
+
+		include vendors
+		
 		link(rel='stylesheet', href='/css/style.css')
+		
 		block header
 	body
 		//-include github_banner
 	block content
 	
-	//- jQuery
-	script(src='/vendor/jquery.min.js')
-	script(src='/vendor/jquery.form.js')
-	//- Bootstrap
-	script(src='/vendor/bootstrap-modal.js')
-	script(src='/vendor/bootstrap-transition.js')
-	//- Socket.io
-	script(src="/socket.io/socket.io.js")
-	script(src="/js/controllers/socketController.js")		
-	
+
 	block scripts

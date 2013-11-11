@@ -1,0 +1,36 @@
+extends layout
+
+block header
+	link(rel='stylesheet', href='/css/editor.css')
+	include codemirror
+	//- CodeMirror Addons
+	script(src="/vendor/codemirror/addon/edit/matchbrackets.js")
+	script(src="/vendor/codemirror/addon/comment/continuecomment.js")
+	script(src="/vendor/codemirror/addon/comment/comment.js")
+	script(src="/vendor/codemirror/mode/javascript/javascript.js")
+
+block content
+	div.container(style="height:100%; width:100%; padding-right:0px; padding-left:0px;")
+		ul.nav.nav-tabs
+			li.active
+				a(href="#editor", data-toggle="tab") Editor
+			li
+				a(href="#extras", data-toggle="tab") Extras
+			li
+				a.btn.btn-success.control-btn.render-btn Render
+			li
+				a.btn
+					label(style="margin-bottom:0px;")
+						input(type="checkbox").auto-render 
+						span Auto-Render
+
+		div.tab-content
+			div.tab-pane.active.fade.in#editor
+				textarea#codeEditor	
+			div.tab-pane.fade#extras
+				p.well Coming soon.
+		
+block scripts
+	script(src="/js/controllers/editorController.js")
+	script(type='text/javascript').
+		editorController.initChild();
