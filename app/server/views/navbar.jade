@@ -10,10 +10,12 @@ div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
         div.navbar-collapse.collapse
           form.navbar-form.navbar-right
             if udata && udata.name
-              a.btn.btn-success Sign Out
+              a.btn.btn-info(href="/account")
+                | @ #{udata.name}
+              button#btn-logout.btn.btn-primary
+                i.icon-lock.icon-white
+                | Sign Out
             else
-              div.form-group
-                input(type="text", placeholder="Email").form-control
-              div.form-group
-                input(type="password", placeholder="Password").form-control
-              button(type="submit").btn.btn-success Sign In
+              a.btn.btn-primary(href="/login")
+                i.icon-lock.icon-white
+                |  Sign In
