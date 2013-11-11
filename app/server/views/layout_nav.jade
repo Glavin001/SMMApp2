@@ -3,8 +3,10 @@
 html
 	head
 		title #{title}
-		meta(name="viewport" content="width=device-width, initial-scale="1.0", maximum-scale="1.0", user-scalable="no") //- For Mobile
-		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
+		meta(name="viewport", content="width=device-width", initial-scale="1.0", maximum-scale="1.0", user-scalable="no") //- For Mobile
+
+		include vendors
+
 		link(rel='stylesheet', href='/css/style.css')
 		block header
 
@@ -17,7 +19,6 @@ html
 	
 	block content
 	
-	include vendors
 	//- For Account management and logging out	
 	script(src='/js/views/home.js')
 	script(src='/js/controllers/homeController.js')
