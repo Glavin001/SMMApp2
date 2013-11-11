@@ -1,0 +1,23 @@
+extends layout
+
+block header
+	link(rel="stylesheet", href="/vendor/codemirror/lib/codemirror.css")
+	script(src="/vendor/codemirror/lib/codemirror.js")
+
+block content
+	div.container(style="height:100%; width:100%;")
+		ul.nav.nav-tabs#test
+			li.active
+				a(href="#editor", data-toggle="tab") Editor
+			li
+				a(href="#editor2", data-toggle="tab") Tab2
+		div.tab-content
+			div.tab-pane.active#editor
+				textarea#codeEditor	
+			div.tab-pane#editor2
+
+		
+block scripts
+	script(src="/js/controllers/editorController.js")
+	script(type='text/javascript').
+		editorController.initChild();
