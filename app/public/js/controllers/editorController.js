@@ -62,6 +62,16 @@
 			if ( $('input.auto-render').prop('checked')  ) {
 				// Render
 				self.render();
+			} else {
+				// Validate JSON even though not rendering
+				var j = editor.getValue();
+				try {
+					var geojsonFeature = JSON.parse(j);
+					$(".render-btn").removeClass("btn-danger").addClass('btn-success'); 
+				} catch(err) {
+					// Parse was unsuccessful
+					$(".render-btn").removeClass("btn-success").addClass('btn-danger'); 
+				}
 			}
 		//}, interval);
 		});
@@ -93,9 +103,11 @@
 			smuLayer.addData(geojsonFeature);
 			// Add Layer to map
 			//smuLayer.addTo(map);
+			$(".render-btn").removeClass("btn-danger").addClass('btn-success'); 
 		} catch(err) {
 			// Parse was unsuccessful
-			console.log("Failed");
+			//console.warn("GeoJSON is not valid.");
+			$(".render-btn").removeClass("btn-success").addClass('btn-danger'); 
 		}
 	};
 
