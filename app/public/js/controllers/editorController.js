@@ -2,14 +2,19 @@
 	var self = editorController;
 	var indentSpaces = 2;
 	var editor = null;
+	var w = window.opener || window;
+	var parent = window.opener;
+	var child = null;
+	var map = w.map;
+	var L = w.L;
 
 	self.initParent = function() {
-		var myWindow = window.open("/builder-editor","_blank",
+		child = window.open("/builder-editor","_blank",
 			"width=500,height=500,menubar=no,status=no,resizable=yes,titlebar=yes,toolbar=no");
 		//myWindow.document.write("<p>This is 'myWindow'</p>");
 		//myWindow.focus();
 		//myWindow.opener.document.write("<p>This is the source window!</p>");
-		console.log('Init parent with child: ', myWindow);
+		console.log('Init parent with child: ', child);
 	};
 
 	self.initChild = function() {
@@ -79,7 +84,11 @@
 		$(".render-btn").click(function() {
 			self.render();
 		});
+
 	};
+
+	// Add click event handler
+	map.on('click', onMapClick);
 
 	// Load JSON
 	self.loadGeo = function(geo) {
@@ -89,8 +98,6 @@
 
 	// Render GeoJSON
 	self.render = function() {
-		var w = window.opener;
-		var map = w.map;
 		var smuLayer = w.smuLayer;
 		// Create new GeoJSON Layer
 		//smuLayer = w.L.geoJson();
@@ -110,5 +117,48 @@
 			$(".render-btn").removeClass("btn-success").addClass('btn-danger'); 
 		}
 	};
+
+
+	var vertices = [ ];
+	function onMapClick(e) {
+		console.log('onMapClick', e);
+	    var marker = new w.L.marker(e.latlng, {draggable:'true'});
+	    marker.on('dragend', function(event){
+            // Update position
+            var marker = event.target;
+            var position = marker.getLatLng();
+            console.log(position);
+            marker.setLatLng(position,{draggable:'true'}).bindPopup(position).update();
+
+		    renderVertices(vertices);
+	    });
+	    marker.on('dblclick', function(event) {
+	    	// Remove
+			var index = vertices.indexOf(marker);
+			if (index > -1) {
+			    vertices.splice(index, 1);
+			}
+			map.removeLayer(marker);
+		    renderVertices(vertices);
+	    });
+	    map.addLayer(marker);
+	    vertices.push(marker);
+
+	    renderVertices(vertices);
+	};
+	var polygon = null;
+	function renderVertices(v) {
+		console.log(v);
+		//polygon && polygon.clearLayers();
+		polygon && map.removeLayer(polygon);
+		var poly = [ ];
+		for (var i=0, len=v.length; i<len; i++) {
+			console.log(v[i]);
+			poly.push(v[i].getLatLng());
+		}
+		console.log(poly);
+		polygon = L.polygon(poly).addTo(map);
+	}
+
 
 })(window.editorController = window.editorController || { } );
