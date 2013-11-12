@@ -38,6 +38,7 @@
 		// Load existing GeoJSON data
 		$.getJSON("/data/campus.geojson", function(geojsonFeature) {
 			self.loadGeo(geojsonFeature);
+			self.render(); // First render
 		});
 		self.loadGeo({});
 
@@ -54,15 +55,16 @@
 		resizeEditor(); // Resize
 
 		// Start auto render
-		var interval = 100;
-		setInterval(function() {
+		//var interval = 100;
+		editor.on('change', function(instance, changeObj) {
+		//setInterval(function() {
 			// Check if already 
 			if ( $('input.auto-render').prop('checked')  ) {
 				// Render
 				self.render();
 			}
-		}, interval);
-		self.render(); // First render
+		//}, interval);
+		});
 		// Render on button press
 		$(".render-btn").click(function() {
 			self.render();
@@ -80,15 +82,14 @@
 		var w = window.opener;
 		var map = w.map;
 		var smuLayer = w.smuLayer;
-		// Clear old SMU Layer
-		smuLayer.clearLayers();
-		//map.removeLayer(smuLayer);
 		// Create new GeoJSON Layer
 		//smuLayer = w.L.geoJson();
 		var j = editor.getValue();
 		try {
 			var geojsonFeature = JSON.parse(j);
-			console.log(geojsonFeature);
+			// Clear old SMU Layer
+			smuLayer.clearLayers();
+			//map.removeLayer(smuLayer);
 			smuLayer.addData(geojsonFeature);
 			// Add Layer to map
 			//smuLayer.addTo(map);
