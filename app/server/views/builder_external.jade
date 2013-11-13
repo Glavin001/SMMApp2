@@ -29,14 +29,15 @@ block content
 			li
 				a.btn
 					label(style="margin-bottom:0px;")
-						input(type="checkbox").auto-render 
+						input(type="checkbox", checked="checked").auto-render 
 						span Auto-Render
 
 		div.tab-content
 			div.tab-pane.active.fade.in#editor
 				textarea#codeEditor	{ }
 			div.tab-pane.fade#extras
-				p.well Coming soon.
+				p.well
+					button.btn.btn-info Add Building
 		
 block scripts
 	script(src="/js/controllers/editorController.js")
