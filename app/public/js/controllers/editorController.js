@@ -15,6 +15,10 @@
 		//myWindow.focus();
 		//myWindow.opener.document.write("<p>This is the source window!</p>");
 		console.log('Init parent with child: ', child);
+
+		// Add click event handler
+		map.on('click', onMapClick);
+
 	};
 
 	self.initChild = function() {
@@ -60,9 +64,7 @@
 		resizeEditor(); // Resize
 
 		// Start auto render
-		//var interval = 100;
 		editor.on('change', function(instance, changeObj) {
-		//setInterval(function() {
 			// Check if already 
 			if ( $('input.auto-render').prop('checked')  ) {
 				// Render
@@ -78,7 +80,6 @@
 					$(".render-btn").removeClass("btn-success").addClass('btn-danger'); 
 				}
 			}
-		//}, interval);
 		});
 		// Render on button press
 		$(".render-btn").click(function() {
@@ -86,9 +87,6 @@
 		});
 
 	};
-
-	// Add click event handler
-	map.on('click', onMapClick);
 
 	// Load JSON
 	self.loadGeo = function(geo) {
@@ -132,7 +130,7 @@
 
 		    renderVertices(vertices);
 	    });
-	    marker.on('dblclick', function(event) {
+	    marker.on('contextmenu', function(event) {
 	    	// Remove
 			var index = vertices.indexOf(marker);
 			if (index > -1) {
@@ -157,7 +155,8 @@
 			poly.push(v[i].getLatLng());
 		}
 		console.log(poly);
-		polygon = L.polygon(poly).addTo(map);
+		polygon = L.polygon(poly).addTo(map)
+		polygon.bindPopup( JSON.stringify( polygon.toGeoJSON() ) );
 	}
 
 
