@@ -27,6 +27,7 @@ var map = L.map(mapId, {
 	,attributionControl: false
 	,layers: [ normalTileLayer ]
 });
+new OSMBuildings(map).loadData(); // OSM Buildings
 
 var features = L.featureGroup([]).addTo(map);
 var buildings = L.featureGroup([]).addTo(features);
