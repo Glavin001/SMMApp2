@@ -1,11 +1,25 @@
-extends layout_nav
+extends layout
 
 block header
 	include leaflet.jade
 
 block content
-	div.container(style="height:100%; width:100%;")
-		div#map(style="width:100%; position: absolute; top:40px; bottom:0px;")
+	div.container.map-container
+		div#map
+		div.container
+			div.col-xs-12.col-sm-6.col-md-4.col-lg-4
+				div.map-controls.navbar.navbar-default
+					ul.nav.navbar-nav
+						li
+							a.glyphicon.glyphicon-search 
+						li
+							form.search.navbar-form.navbar-left(role="search")
+								div.form-group
+									input(type="text", placeholder="Search").form-control
+						li
+							a.glyphicon.glyphicon-cog 
+						li
+							a.glyphicon.glyphicon-user 
 
 block scripts
 	script(src="/js/controllers/mapController.js")

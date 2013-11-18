@@ -20,10 +20,12 @@ var midnightTileLayer  = L.tileLayer(cloudmadeUrl, {
 */
 // 
 var map = L.map(mapId, {
-	center: smuLocation,
-	maxZoom: 22,
-	zoom: 17,
-	layers: [ normalTileLayer ]
+	center: smuLocation
+	,maxZoom: 22
+	,zoom: 17
+	,zoomControl: false
+	,attributionControl: false
+	,layers: [ normalTileLayer ]
 });
 
 var features = L.featureGroup([]).addTo(map);
