@@ -7,7 +7,7 @@ block content
 	div.container.map-container
 		div#map
 		div.container
-			div.col-xs-12.col-sm-6.col-md-6.col-lg-4
+			div.map-hud.col-xs-12.col-sm-6.col-md-6.col-lg-4
 				div.map-controls
 					div.row
 						div.col-xs-1.col-sm-1.col-md-1
@@ -17,8 +17,40 @@ block content
 						div.col-xs-1.col-sm-1.col-md-1
 							i.glyphicon.glyphicon-user 
 						div.col-xs-1.col-sm-1.col-md-1
-							i.glyphicon.glyphicon-cog 
-
+							i.glyphicon.glyphicon-cog
+				table.map-directions.table.table-striped.table-hover
+					tr
+						td(colspan="2") 
+							h4 Directions from Atrium 101 to Loyola 123
+					tr
+						td
+							i.glyphicon.glyphicon-arrow-up
+						td 
+							p 
+								strong Start at Atrium 101
+								p Move to somewhere else
+					tr
+						td
+							i.glyphicon.glyphicon-arrow-left
+						td 
+							p 
+								strong Start at Atrium 101
+								p Move to somewhere else
+					tr
+						td
+							i.glyphicon.glyphicon-arrow-right
+						td 
+							p 
+								strong Start at Atrium 101
+								p Move to somewhere else
+					tr
+						td
+							i.glyphicon.glyphicon-arrow-down
+						td 
+							p 
+								strong Start at Atrium 101
+								p Move to somewhere else
+						
 block scripts
 	script(src="/vendor/OSMBuildings-Leaflet.js")
 	script(src="/js/controllers/mapController.js")
