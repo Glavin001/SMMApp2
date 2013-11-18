@@ -45,7 +45,7 @@ var overlayMaps = {
     "Buidlings": buildings,
     "Walk Ways": walkWays 
 };
-L.control.layers(baseMaps, overlayMaps).addTo(map);
+//L.control.layers(baseMaps, overlayMaps).addTo(map); // Layer Controls
 
 // Center around SMU campus
 //map.setView(smuLocation, 17);

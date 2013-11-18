@@ -7,19 +7,17 @@ block content
 	div.container.map-container
 		div#map
 		div.container
-			div.col-xs-12.col-sm-6.col-md-4.col-lg-4
-				div.map-controls.navbar.navbar-default
-					ul.nav.navbar-nav
-						li
-							a.glyphicon.glyphicon-search 
-						li
-							form.search.navbar-form.navbar-left(role="search")
-								div.form-group
-									input(type="text", placeholder="Search").form-control
-						li
-							a.glyphicon.glyphicon-cog 
-						li
-							a.glyphicon.glyphicon-user 
+			div.col-xs-12.col-sm-6.col-md-6.col-lg-4
+				div.map-controls
+					div.row
+						div.col-xs-1.col-sm-1.col-md-1
+							i.glyphicon.glyphicon-search
+						div.col-xs-7.col-sm-8.col-md-8
+							input(type="text", placeholder="Search").form-control.search
+						div.col-xs-1.col-sm-1.col-md-1
+							i.glyphicon.glyphicon-user 
+						div.col-xs-1.col-sm-1.col-md-1
+							i.glyphicon.glyphicon-cog 
 
 block scripts
 	script(src="/js/controllers/mapController.js")
