@@ -69,17 +69,17 @@ if (multicore && cluster.isMaster) {
 	}
 	// Cluster events
 	cluster.on('fork', function(worker) {
-		console.log('fork', worker.id);
+		//console.log('fork', worker.id);
 	});
 	cluster.on('listening', function(worker, address) {
-		console.log('listening', worker.id, address);
+		//console.log('listening', worker.id, address);
 	});
 	cluster.on('exit', function(worker, code, signal) {
 		console.log('worker ' + worker.process.pid + ' died');
 	});
 } else {
 	if (multicore) {
-		console.log("Started worker node");
+		//console.log("Started worker node");
 	} else {
 		// Must be master
 		console.log("Started single master node");
@@ -93,12 +93,23 @@ if (multicore && cluster.isMaster) {
 	    console.log(req.method, req.url);
 	    next(); // Passing the request to the next handler in the stack.
 	};
-
+	
+	// Clustering Socket.io, use Redis for storage
 	io.set("store", new RedisStore({
 		redisPub: pub,
 		redisSub: sub,
 		redisClient: client
 	}));
+
+	// Customize for Production server
+	if (production) {
+		// Socket.io
+		io.enable('browser client minification');  // send minified client
+		io.enable('browser client etag');          // apply etag caching logic based on version number
+		io.enable('browser client gzip');          // gzip the file
+		io.set('log level', 1);                    // reduce logging
+
+	}
 
 	// Socket.io authentication handler
 	io.set('authorization', function (handshakeData, accept) {
@@ -130,13 +141,13 @@ if (multicore && cluster.isMaster) {
 		app.use(express.static(__dirname + '/app/public'));
 		//
 		if (!production) {
-	    	app.use(logger); // Add logger to the stack.
+	    	app.configure('development', function() {
+				app.use(logger); // Add logger to the stack.
+				app.use(express.errorHandler());
+			});
 		}
 	});
 
-	app.configure('development', function(){
-		app.use(express.errorHandler());
-	});
 
 
 	// Handle Appcache request
