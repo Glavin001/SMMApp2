@@ -59,10 +59,12 @@
   "main": "app.js",
   "devDependencies": {},
   "scripts": {
-    "start": "node app.js --production --multicore",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "./install.sh",
-    "postinstall": "echo \"Installation complete.\"; ",
+    "prestart":"echo \"IMPORTANT: MongoDB and Redis must be running.\"",
+    "start": "node app.js --production --multicore",
+    "poststart": "echo \"Post-Start.\"",
+    "preinstall": "./bin/install.sh",
+    "postinstall": "echo \"Installation complete.\"",
     "predeploy": "echo This will be run before deploying the app",
     "postdeploy": "echo This will be run after deploying the app"
   },
