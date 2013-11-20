@@ -53,4 +53,10 @@ block content
 						
 block scripts
 	script(src="/vendor/OSMBuildings-Leaflet.js")
+	script(src="/js/controllers/graphController.js")
 	script(src="/js/controllers/mapController.js")
+	script.
+		var graphJson = {a:{b:3,c:1},b:{a:2,c:1},c:{a:4,b:1}};
+		var graph = new Graph(graphJson);
+		console.log( graph.findShortestPath('c', 'a', 'b') );
+
