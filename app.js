@@ -1,10 +1,11 @@
 /**
+
 	Saint Mary's Mobile App (SMMApp), Version 2.0.0 
+	Copyright (c) 2013 Glavin Wiechert
 
 	Forked from Node-Login Boilerplate
-	* Node.js Login Boilerplate
 	* More Info : http://bit.ly/LsODY8
-	* Copyright (c) 2013 Stephen Braitsch
+
 **/
 
 // Dependencies
@@ -27,7 +28,7 @@ var client = redis.createClient();
 
 // Properties, defaults
 var port = 8080; // Server port number
-var production = false; // Default is development
+var production = (process.env.NODE_ENV=="production"?true:false) || false; // Default is development
 var multicore = false; // Default is false
 
 // Process command line arguments
