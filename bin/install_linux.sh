@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "===== Installing dependencies for Linux ====="
 echo
 
