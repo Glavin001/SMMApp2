@@ -1,3 +1,4 @@
+#!/bin/bash
 # Main Installer
 
 dir=$(pwd)
