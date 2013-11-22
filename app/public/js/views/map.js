@@ -55,7 +55,7 @@ $.getJSON("/data/pathNodes.geojson", function(graphJson) {
 	var smuGraph = new Graph(simpleGraph);
 	//var directions = smuGraph.findShortestPath('LA-Entrance-1', 'Outside-2', 'Outside-8');
 	//var directions = smuGraph.findShortestPath('LA-Entrance-1', 'McNally-East-Entrance-1', 'McNally-North-Entrance-1') || [ ];
-	var directions = smuGraph.findShortestPath('Outside-17', 'Outside-6') || [ ];
+	var directions = smuGraph.findShortestPath('Outside-17', /*'A-Entrance-1', 'McNally-East-Entrance-2',*/ 'Outside-6') || [ ];
 	console.log( directions );
 
 	var poly = [ ];
@@ -81,7 +81,21 @@ $.getJSON("/data/pathNodes.geojson", function(graphJson) {
  			break;
  		}
  	}
-	var polygon = L.polyline(poly).addTo(map)
+	var polygon = L.polyline(poly, {
+				weight: 20,
+				color: "#428bca"
+		}).addTo(map)
 
+	
+	var directionsLayer = L.geoJson();
+	$.getJSON("/data/pathNodes.geojson", function(geojsonFeature) {
+		directionsLayer = L.geoJson(geojsonFeature, {
+			style: {
+				weight: 10,
+				color: "#428bca"
+			}
+		}).addTo(map);
+	});
+	
 
 });

@@ -48,7 +48,7 @@
       "type": "Feature",
       "properties": {
         "id": "Outside-3",
-        "to": "Outside-4,Outside-2"
+        "to": "Outside-4,Outside-2,McNally-East-Entrance-2"
       },
       "geometry": {
         "type": "Point",
@@ -176,7 +176,7 @@
       "type": "Feature",
       "properties": {
         "id": "McNally-Main-Hallway-1",
-        "to": "McNally-South-Hallway-1,McNally-Main-Entrance-1,McNally-East-Entrance-1,McNally-North-Hallway-1"
+        "to": "McNally-South-Hallway-1,McNally-Main-Entrance-1,McNally-East-Entrance-1,McNally-North-Hallway-1,McNally-East-Entrance-2"
       },
       "geometry": {
         "type": "Point",
@@ -401,6 +401,20 @@
         "coordinates": [
           -63.58205705881119,
           44.630789104147354
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "McNally-East-Entrance-2",
+        "to": "Outside-3,McNally-Main-Hallway-1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.58134627342224,
+          44.63127202609957
         ]
       }
     }
