@@ -1,0 +1,132 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "LA-Entrance-1",
+        "entrance": "yes",
+        "to": "Outside-1,Outside-4"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.580589890480034,
+          44.63091699296066
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Outside-1",
+        "to": "LA-Entrance-1,Outside-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.58070790767669,
+          44.63116131707424
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Outside-2",
+        "to": "Outside-1,Outside-3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.580745458602905,
+          44.631260573451584
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Outside-3",
+        "to": "Outside-4,Outside-2"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.58121216297149,
+          44.63118040485228
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Outside-4",
+        "to": "Outside-5,Outside-3,LA-Entrance-1,Outside-1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.58109146356582,
+          44.630863546923706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Outside-5",
+        "to": "Outside-6,Outside-4"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.581292629241936,
+          44.63079864809839
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Outside-6",
+        "to": "Outside-7,Outside-5"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.58186662197113,
+          44.630691755757304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Outside-7",
+        "to": "Outside-8,Outside-6"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.58211874961852,
+          44.63067648540679
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Outside-8",
+        "to": "Outside-7"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.58230650424958,
+          44.63063067433117
+        ]
+      }
+    }
+  ]
+}

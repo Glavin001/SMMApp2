@@ -51,6 +51,9 @@
     "npm": ">=1.1.65"
   },
   "config": {
+    "port": 8080,
+    "production": false,
+    "multicore": false
   },
   "bugs": {
     "url": "https://github.com/Glavin001/SMMApp2/issues",

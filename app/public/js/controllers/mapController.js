@@ -113,7 +113,18 @@ var geojsonMarkerOptions = {
     fillOpacity: 0.8
 };
 
+/*
 $.getJSON("/data/walkways.geojson", function(geojsonFeature) {
+	smuLayer = L.geoJson(geojsonFeature, {
+		style: {
+			weight: 10,
+			color: "#428bca"
+		}
+	}).addTo(map);
+});
+*/
+
+$.getJSON("/data/pathNodes.geojson", function(geojsonFeature) {
 	smuLayer = L.geoJson(geojsonFeature, {
 		style: {
 			weight: 10,
