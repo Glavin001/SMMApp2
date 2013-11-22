@@ -46,12 +46,16 @@ $.getJSON("/data/pathNodes.geojson", function(graphJson) {
 	
 	console.log(simpleGraph);
 
+	/*
 	var graphJson = {a:{b:3,c:1},b:{a:2,c:1},c:{a:4,b:1}};
 	var graph = new Graph(graphJson);
 	console.log( graph.findShortestPath('c', 'a', 'b') );
+	*/
 
 	var smuGraph = new Graph(simpleGraph);
-	var directions = smuGraph.findShortestPath('LA-Entrance-1', 'Outside-2', 'Outside-8');
+	//var directions = smuGraph.findShortestPath('LA-Entrance-1', 'Outside-2', 'Outside-8');
+	//var directions = smuGraph.findShortestPath('LA-Entrance-1', 'McNally-East-Entrance-1', 'McNally-North-Entrance-1') || [ ];
+	var directions = smuGraph.findShortestPath('Outside-17', 'Outside-6') || [ ];
 	console.log( directions );
 
 	var poly = [ ];
