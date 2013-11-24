@@ -62,7 +62,7 @@
   "main": "app.js",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./bin/benchmark.sh",
     "prestart":"echo \"IMPORTANT: MongoDB and Redis must be running.\"",
     "start": "node app.js --production --multicore",
     "poststart": "echo \"Post-Start.\"",
