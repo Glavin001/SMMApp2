@@ -3,10 +3,10 @@ SMMApp2
 
 Saint Mary's Mobile App, Version 2.0
 
-# Screenshots
+## Screenshots
 See [/screenshots](/screenshots/).
 
-# Documentation
+## Documentation
 See [/docs](/docs/).
 
 ## History
