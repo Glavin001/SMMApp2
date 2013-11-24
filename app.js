@@ -31,6 +31,9 @@ var port = 8080; // Server port number
 var production = (process.env.NODE_ENV=="production"?true:false) || false; // Default is development
 var multicore = false; // Default is false
 
+// Performance Stats
+var requestsPerSecond = 0;
+
 // Process command line arguments
 process.argv.forEach(function (val, index, array) {
   	// Customize port number, "[-p #]"
@@ -140,6 +143,16 @@ if (multicore && cluster.isMaster) {
 		app.use(express.methodOverride());
 		app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 		app.use(express.static(__dirname + '/app/public'));
+		// Count requests
+		var countRequests = function(req, res, next) {
+			// Increment 
+			requestsPerSecond++;
+			// Continue    
+			next();
+		};
+		// Use Custom Middleware
+		app.use(countRequests);
+
 		//
 		if (!production) {
 	    	app.configure('development', function() {
@@ -148,8 +161,6 @@ if (multicore && cluster.isMaster) {
 			});
 		}
 	});
-
-
 
 	// Handle Appcache request
 	var startTime = new Date();
@@ -187,6 +198,26 @@ if (multicore && cluster.isMaster) {
 		console.log((production?"Production ":"")+"Express server listening on port " + app.get('port'));
 	});
 
+	// Save and Clear every second
+	function clearRequestsPerSecond() {
+		//console.log('clearRequestsPerSecond');
+		// Save 
+		var lastRequestsPerSecond = requestsPerSecond;
+		// Clear
+		requestsPerSecond = 0;
+		// Push to Socket.io users who are listening
+		io.sockets.in("admin").emit("requestsPerSecond",  lastRequestsPerSecond);
+	}
+	setInterval(clearRequestsPerSecond, 1000);
+
+	// Current Users per second
+	var connectedUsers = 0;
+	function usersPerSecond() {
+		// Push to Socket.io users who are listening
+		io.sockets.in("admin").emit("currentUsersPerSecond",  connectedUsers );
+	}
+	setInterval(usersPerSecond, 1000);
+
 	// Graceful shutdown
 	var shutdown = function() {
 	  	console.log("Closing SMU Mobile App...");
@@ -201,12 +232,14 @@ if (multicore && cluster.isMaster) {
 
 	// Socket.io
 	io.sockets.on('connection', function (socket) {
+		connectedUsers++;
 		// 
 		socket.user = { };
 		// Set socket username
 		socket.user.name = socket.handshake.cookie.user;
 		// Join chat room
 		socket.join("default");
+		socket.join("admin"); // TODO: Only join admin room if logged in as an admin or on the /admin page.
 		// Broadcast join	
 		//socket.broadcast.to(chat.room).emit('sendChat', {"name":"Server", "msg": socket.user.name+" joined chat."});
 		// Welcome new user
@@ -219,7 +252,10 @@ if (multicore && cluster.isMaster) {
 		socket.on("disconnect", function(data) {
 			// Broadcast join	
 			//socket.broadcast.to(chat.room).emit('sendChat', {"name":"Server", "msg": socket.user.name+" left chat."});
+			connectedUsers--;
+			if (connectedUsers < 0) connectedUsers = 0;
 		});
+
 		/*
 		// 
 		socket.on("sendChat", function(data) {
@@ -236,6 +272,8 @@ if (multicore && cluster.isMaster) {
 			socket.user.color = data && data.hex;
 		});
 		*/
+
+
 
 	});
 

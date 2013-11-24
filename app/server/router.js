@@ -70,6 +70,16 @@ module.exports = function(app) {
 		});
 	});
 	
+	app.get('/admin', function(req, res) {
+		//requiresLogin(req, res, function(req, res) {
+			res.render('admin', {
+				title : 'Admin Control Panel',
+				countries : CT,
+				udata : req.session.user
+			});
+		//});
+	});
+
 	app.get('/offline', function(req, res) {
 		res.render('offline', {
 			title : 'Home',

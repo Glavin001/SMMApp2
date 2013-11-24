@@ -1,0 +1,15 @@
+extends layout
+
+block header
+	
+block content
+	div.container
+		div.container
+			h1 Admin Web UI	
+			div#activeUsers(style="min-width: 310px; min-height: 200px; height: 300px; margin: 0 auto")
+			div#requestsPerSecond(style="min-width: 310px; min-height: 200px; height: 300px; margin: 0 auto")
+						
+block scripts
+	script(src="http://code.highcharts.com/highcharts.js")
+	script(src="http://code.highcharts.com/modules/exporting.js")
+	script(src="/js/views/admin.js")
