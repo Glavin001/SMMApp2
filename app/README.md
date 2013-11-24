@@ -1,7 +1,7 @@
 # App directory
 
-## [/public](/public)
+## [public](public)
 Files within this directory are publicly accessible.
 
-## [/server](/server)
+## [server](server)
 Files within this directory are used by the `router.js` server app as `views`.
