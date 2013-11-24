@@ -1,4 +1,4 @@
-# [App](app) directory
+# [App](/app) directory
 
 ## [public](public)
 Files within this directory are publicly accessible.
