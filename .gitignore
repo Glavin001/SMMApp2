@@ -21,3 +21,6 @@ node_modules
 # Styl resulting CSS
 app/public/css/*.css
 
+# Redis Dump files
+dump.rdb
+

@@ -63,10 +63,10 @@
   "devDependencies": {},
   "scripts": {
     "test": "./bin/benchmark.sh",
-    "prestart":"echo \"IMPORTANT: MongoDB and Redis must be running.\"",
+    "prestart":"echo \"IMPORTANT: MongoDB and Redis-Server must be running.\"",
     "start": "node app.js --production --multicore",
     "poststart": "echo \"Post-Start.\"",
-    "preinstall": "./bin/install.sh",
+    "preinstall": "echo \"IMPORTANT: MongoDB and Redis-Server must be installed.\"",
     "postinstall": "echo \"Installation complete.\"",
     "predeploy": "echo This will be run before deploying the app",
     "postdeploy": "echo This will be run after deploying the app"
