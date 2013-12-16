@@ -3,13 +3,16 @@
 List of common and easily solvable issues.
 
 ## Installation
-
+There are currently no known installation issues. 
+If you find an error, please add it as an Issue with instructions on how to reproduce. 
+Make sure you have followed the installation instructions closely.
 
 ## Running
 
-======
 ### Redis not running
-Error message:
+
+#### Error message:
+
 ```bash
 events.js:72
         throw er; // Unhandled 'error' event
@@ -22,8 +25,10 @@ Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
     at process._tickCallback (node.js:415:13)
 ```
 
-Solution:
+#### Solution:
+
 1) Start redis-server, or
+
 2) add the `--disable-redis-server` argument.
 For instance, `node app.js --disable-redis-server`.
 
@@ -31,7 +36,9 @@ For instance, `node app.js --disable-redis-server`.
 
 ### Dependency not installed
 The following error occurs when the Node dependencies are not installed.
-Error message: 
+
+#### Error message: 
+
 ```bash
 module.js:340
     throw err;
@@ -49,7 +56,8 @@ Error: Cannot find module 'XYZ'
     at Module.runMain (module.js:492:10)
 ```
 
-Solution:
+#### Solution:
+
 ```bash
 npm install
 npm update
