@@ -45,7 +45,8 @@
     "cookie": "*",
     "connect": "*",
     "redis": "*",
-    "commander": "*"
+    "commander": "*",
+    "beautiful-docs": "*"
   },
   "engines": {
     "node": ">=0.8.14",
