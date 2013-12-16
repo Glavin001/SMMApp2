@@ -22,4 +22,5 @@ Future features: https://github.com/Glavin001/SMMApp2/issues?labels=feature&stat
 
 ## Bugs
 See all known open bugs at https://github.com/Glavin001/SMMApp2/issues?labels=bug&state=open
+
 If you find more bugs, please create a new Issue and mark it with the `bug` label.
