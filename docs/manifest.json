@@ -1,0 +1,16 @@
+{
+	"title": "SMMApps Documentation",
+	"github": "Glavin001/SMMApp2",
+	"rootDir": ".",
+	"files": [
+		"installation.md",
+		"developers.md",
+		"develop_page.md",
+		"troubleshooting.md",
+		"testing.md"
+	],
+	"links": [
+		["View on GitHub","https://github.com/Glavin001/SMMApp2"],
+		["Report an Issue","https://github.com/Glavin001/SMMApp2/issues"]
+	]
+}
