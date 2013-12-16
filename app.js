@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
 
 	Saint Mary's Mobile App (SMMApp), Version 2.0.0 
@@ -19,52 +21,32 @@ var cookie = require("cookie");
 var connect = require("connect");
 var cluster = require('cluster');
 var http = require('http');
+var program = require('commander');
+// 
 var numCPUs = require('os').cpus().length;
+// Redis
 var RedisStore = require("socket.io/lib/stores/redis");
 var redis = require("socket.io/node_modules/redis");
-var pub = redis.createClient();
-var sub = redis.createClient();
-var client = redis.createClient();
-
-// Properties, defaults
-var port = 8080; // Server port number
-var production = (process.env.NODE_ENV=="production"?true:false) || false; // Default is development
-var multicore = false; // Default is false
 
 // Performance Stats
 var requestsPerSecond = 0;
 
 // Process command line arguments
-process.argv.forEach(function (val, index, array) {
-  	// Customize port number, "[-p #]"
-	if (val === "-p" || val === "--port") {
-		// Change port number
-		var newPort = parseInt( array[index+1] );
-		if (! isNaN(newPort )) {
-			//console.log("New port #:", newPort);
-			port = newPort;
-		} else {
-			console.error("Invalid custom port number: ", newPort);
-		}
-	} else 
-	if (val === "--production") {
-		// Is production server, no longer development
-		production = true;
-	} else 
-	if (val === "--multicore") {
-		// Enable multicore support
-		multicore = true;
-  	} 
-}); 
+program
+	.version('2.0.0')
+	.option('-p, --port <port>', 'Custom Port number for website. Default is [8080].', Number, 8080)
+	.option('--production', "Turn on Production mode.", Boolean, (process.env.NODE_ENV=="production"?true:false) || false)
+	.option('--multi-core', "Turn on Multi-Core support.", Boolean, false)
+	.option('--disable-redis-store', "Turn off Redis Store for Socket.io. Will disable Multi-Core support.", Boolean, false)
+	.parse(process.argv);
 
-if (cluster.isMaster) {
-	// Display command line arguments
-	console.log("Usage:")
-	console.log("	node app [--port|-p number] [--production] [--multicore]");
-	console.log()
+// RedisStore is required for Multi-Core support
+if (program.disableRedisStore) {
+	program.multiCore && console.log("RedisStore is required for Multi-Core support.");
+	program.multiCore = false;
 }
 
-if (multicore && cluster.isMaster) {
+if (program.multiCore && cluster.isMaster) {
 	console.log("Starting Multicore Server");
 	console.log("Detected "+numCPUs+" CPUs.");
 	// Fork workers.
@@ -82,7 +64,7 @@ if (multicore && cluster.isMaster) {
 		console.log('worker ' + worker.process.pid + ' died');
 	});
 } else {
-	if (multicore) {
+	if (program.multiCore) {
 		//console.log("Started worker node");
 	} else {
 		// Must be master
@@ -98,15 +80,20 @@ if (multicore && cluster.isMaster) {
 	    next(); // Passing the request to the next handler in the stack.
 	};
 	
-	// Clustering Socket.io, use Redis for storage
-	io.set("store", new RedisStore({
-		redisPub: pub,
-		redisSub: sub,
-		redisClient: client
-	}));
-
+	if (!program.disableRedisStore) {
+		// Clustering Socket.io, use Redis for storage
+		var pub = redis.createClient();
+		var sub = redis.createClient();
+		var client = redis.createClient();
+		io.set("store", new RedisStore({
+			redisPub: pub,
+			redisSub: sub,
+			redisClient: client
+		}));
+	}
+	
 	// Customize for Production server
-	if (production) {
+	if (program.production) {
 		// Socket.io
 		io.enable('browser client minification');  // send minified client
 		io.enable('browser client etag');          // apply etag caching logic based on version number
@@ -130,7 +117,7 @@ if (multicore && cluster.isMaster) {
 	});
 
 	app.configure(function(){
-		app.set('port', port);
+		app.set('port', program.port);
 		app.set('views', __dirname + '/app/server/views');
 		app.set('view engine', 'jade');
 		app.locals.pretty = true;
@@ -154,7 +141,7 @@ if (multicore && cluster.isMaster) {
 		app.use(countRequests);
 
 		//
-		if (!production) {
+		if (!program.production) {
 	    	app.configure('development', function() {
 				app.use(logger); // Add logger to the stack.
 				app.use(express.errorHandler());
@@ -195,7 +182,7 @@ if (multicore && cluster.isMaster) {
 	require('./app/server/router')(app);
 
 	server.listen(app.get('port'), function() {
-		console.log((production?"Production ":"")+"Express server listening on port " + app.get('port'));
+		console.log((program.production?"Production ":"")+"Express server listening on port " + app.get('port'));
 	});
 
 	// Save and Clear every second

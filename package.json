@@ -44,7 +44,8 @@
     "socket.io": "*",
     "cookie": "*",
     "connect": "*",
-    "redis": "*"
+    "redis": "*",
+    "commander": "*"
   },
   "engines": {
     "node": ">=0.8.14",
@@ -64,7 +65,7 @@
   "scripts": {
     "test": "./bin/benchmark.sh",
     "prestart":"echo \"IMPORTANT: MongoDB and Redis-Server must be running.\"",
-    "start": "node app.js --production --multicore",
+    "start": "node app.js --production --multi-core",
     "poststart": "echo \"Post-Start.\"",
     "preinstall": "echo \"IMPORTANT: MongoDB and Redis-Server must be installed.\"",
     "postinstall": "echo \"Installation complete.\"",
