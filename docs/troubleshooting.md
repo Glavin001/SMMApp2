@@ -42,7 +42,7 @@ For instance, `node app.js --disable-redis-server`.
 ```
 
 #### Solution:
-[Start MongoDB's daemon.](http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/#start-mongod)
+[Start mongod.](http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/#start-mongod)
 
 =====
 
