@@ -7,10 +7,15 @@ It is very important to understand how to use Git. If you're not familar please 
 #### - Node.js
 See http://nodejs.org/ for installation and more information.
 
+### Operating System Support
+Tested and supports Mac, Linux (Ubuntu tested), and Windows.
+
+=====
+
 ## Installation of App Server
 > See [Installation on Windows](#installation-on-windows) for using Windows to host server app.
 
-Run the following Terminal command.
+Run the following [Terminal](http://en.wikipedia.org/wiki/Terminal_\(OS_X\)) command.
 ### 1) SSH
 ```bash
 git clone git@github.com:Glavin001/SMMApp2.git && \ # Git Clone using SSH
