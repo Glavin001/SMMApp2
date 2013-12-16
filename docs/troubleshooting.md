@@ -32,7 +32,19 @@ Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
 2) add the `--disable-redis-server` argument.
 For instance, `node app.js --disable-redis-server`.
 
-======
+=====
+
+### MongoDB not running
+
+#### Error Message:
+```bash
+[Error: failed to connect to [localhost:27017]]
+```
+
+#### Solution:
+[Start MongoDB's daemon.](http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/#start-mongod)
+
+=====
 
 ### Dependency not installed
 The following error occurs when the Node dependencies are not installed.
