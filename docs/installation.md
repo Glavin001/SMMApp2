@@ -13,7 +13,7 @@ See http://nodejs.org/ for installation and more information.
 Run the following Terminal command.
 ### 1) SSH
 ```bash
-git clone git@github.com:Glavin001/SMMApp2.git && \
+git clone git@github.com:Glavin001/SMMApp2.git && \ # Git Clone using SSH
 cd SMMApp2 && \ # Change directory to SMMApp2
 ./bin/install.sh && \ # Install MongoDB and Redis
 npm install # Install Node dependencies
@@ -27,10 +27,13 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 ```
-Then use method 2, `HTTP`, instead.
+Then use method 2, `HTTP`, instead. 
+Alternatively, you can setup SSH keys with GitHub and start using SSH! 
+See GitHub's documentation on [Generating SSH Keys](https://help.github.com/articles/generating-ssh-keys).
+
 ### 2) HTTP
 ```bash
-git clone https://github.com/Glavin001/SMMApp2.git && \
+git clone https://github.com/Glavin001/SMMApp2.git && \ # Git Clone using HTTP
 cd SMMApp2 && \ # Change directory to SMMApp2
 ./bin/install.sh && \ # Install MongoDB and Redis
 npm install # Install Node dependencies
