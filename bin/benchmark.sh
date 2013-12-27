@@ -6,7 +6,7 @@ echo
 
 numRequests=9999
 numUsers=100
-address=http://127.0.0.1:8080/
+address=http://127.0.0.1:8080/home/
 
 read -p "Enter number of requests (default: $numRequests): " temp
 numRequests=${temp:-$numRequests}
