@@ -30,6 +30,7 @@ var redis = require("socket.io/node_modules/redis");
 
 // Performance Stats
 var requestsPerSecond = 0;
+var allResponseTimes = [];
 
 // Process command line arguments
 program
@@ -139,8 +140,33 @@ if (program.multiCore && cluster.isMaster) {
 		};
 		// Use Custom Middleware
 		app.use(countRequests);
+        //app.use(connect.responseTime());
 
-		//
+        var customResponseTime = function responseTime(){ 
+        return function(req, res, next){ 
+            var start = new Date; 
+            if (res._responseTime) 
+                return next(); 
+            res._responseTime = true; 
+            res.on('header', function() {
+                var duration = new Date - start; 
+                res.setHeader('X-Response-Time', duration + 'ms'); 
+                // Add to allResponseTimes 
+                allResponseTimes.push( duration ); 
+            }); 
+            next(); 
+            }; 
+        }; 
+        app.use(customResponseTime);
+
+
+        /*
+        var getResponseTime = function(req,res,next) {
+            responseTime = res.getHeader("X-Response-Time");
+            next();
+        };
+		app.use(getResponseTime);
+        */
 		if (!program.production) {
 	    	app.configure('development', function() {
 				app.use(logger); // Add logger to the stack.
@@ -196,6 +222,18 @@ if (program.multiCore && cluster.isMaster) {
 		io.sockets.in("admin").emit("requestsPerSecond",  lastRequestsPerSecond);
 	}
 	setInterval(clearRequestsPerSecond, 1000);
+
+    // Save and Clear every second
+    function clearResponseTime() { 
+        //console.log(http.); 
+        var average = 0;
+        for (var i=0; i<allResponseTimes.length;i++)
+             average += allResponseTimes[i];
+        var lastResponseTime = average/allResponseTimes.length; 
+        allResponseTimes = []; // Push to Socket.io users who are listening 
+        io.sockets.in("admin").emit("responseTime", lastResponseTime); 
+    } 
+    setInterval(clearResponseTime, 1000);
 
 	// Current Users per second
 	var connectedUsers = 0;
@@ -260,8 +298,7 @@ if (program.multiCore && cluster.isMaster) {
 		});
 		*/
 
-
-
 	});
 
 }
+
