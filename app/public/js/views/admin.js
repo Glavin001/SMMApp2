@@ -26,13 +26,13 @@ $(function () {
                         */
                         var responseTime = 0;
                         socket.on('responseTime', function (data) {
-                            responseTime = data;
+                            responseTime = responseTime + data;
                         });
                         var displayResponseTime = function () {
                             var x = (new Date()).getTime(), // current time
                                 y = responseTime;
                             series.addPoint([x, y], true, true);
-                            currentUsers = 0;
+                            responseTime = 0;
                         };
                         setInterval(displayResponseTime, 1000);
                     }
@@ -59,7 +59,7 @@ $(function () {
                 formatter: function () {
                     return '<b>' + this.series.name + '</b><br/>' +
                         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
+                        Highcharts.numberFormat(this.y, 5);
                 }
             },
             legend: {

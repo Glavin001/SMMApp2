@@ -106,7 +106,7 @@ module.exports = function(app) {
 
 // logged-in user homepage //	
 	app.get('/home', function(req, res) {
-		console.log(req.session.user);
+		//console.log("User:", req.session.user);
 		res.render('home', {
 			title : 'Home',
 			countries : CT,
