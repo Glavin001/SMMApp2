@@ -11,6 +11,7 @@
 **/
 
 // Dependencies
+var pjson = require('./package.json');
 var fs = require("fs");
 var express = require('express');
 var http = require('http');
@@ -34,7 +35,7 @@ var allResponseTimes = [];
 
 // Process command line arguments
 program
-    .version('2.0.0')
+    .version(pjson.version)
     .option('-p, --port <port>', 'Custom Port number for website. Default is [8080].', Number, 8080)
     .option('--production', "Turn on Production mode.", Boolean, (process.env.NODE_ENV=="production"?true:false) || false)
     .option('--multi-core', "Turn on Multi-Core support.", Boolean, false)
@@ -201,6 +202,17 @@ if (program.multiCore && cluster.isMaster) {
         });
     });
     getManifest(); // Pre-load
+
+    // Server Specifications
+    app.get("/specs.json", function(req, res) {
+        var specs = { };
+        specs.version = pjson.version;
+        specs.workers = (program.multiCore)?program.workers:1;
+        specs.redis = !program.disableRedisStore;
+        specs.production = !!program.production;
+        specs.port = program.port;
+        return res.json(specs);
+    });
 
     require('./app/server/router')(app);
 
