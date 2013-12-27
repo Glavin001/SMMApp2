@@ -1,25 +1,25 @@
 !!! 5
-//-html(lang="en", manifest="/appcache")
+html(lang="en", manifest="/appcache")
 html
-	head
-		title #{title}
-		meta(name="viewport", content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no") //- For Mobile
-		meta(name="apple-mobile-web-app-capable", content="yes")
+    head
+        title #{title}
+        meta(name="viewport", content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no") //- For Mobile
+        meta(name="apple-mobile-web-app-capable", content="yes")
 
-		include vendors
-		
-		link(rel='stylesheet', href='/css/style.css')
-		link(rel='stylesheet', href='/css/map.css')
-		
-		block header
-	body
-		include modals/alert
-		include modals/confirm
-		include navbar
-		block content
-		block scripts
-		//- For Account management and logging out	
-		script(src='/js/views/home.js')
-		script(src='/js/controllers/homeController.js')
-		script(src='/js/form-validators/accountValidator.js')
-		
+        include vendors
+        
+        link(rel='stylesheet', href='/css/style.css')
+        link(rel='stylesheet', href='/css/map.css')
+        
+        block header
+    body
+        include modals/alert
+        include modals/confirm
+        block content
+        block scripts
+        //- For Account management and logging out  
+        script(src='/js/views/home.js')
+        script(src='/js/controllers/homeController.js')
+        script(src='/js/form-validators/accountValidator.js')
+        script(src='/js/controllers/navController.js')
+

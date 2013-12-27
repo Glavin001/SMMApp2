@@ -17,7 +17,7 @@ address=${temp:-$address}
 echo
 
 
-command="ab -n $numRequests -c $numUsers $address"
+command="ab -n $numRequests -c $numUsers -k -r $address"
 echo "Apache Bench command:"
 echo "  $command"
 echo

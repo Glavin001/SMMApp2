@@ -1,3 +1,6 @@
+map-shadow = 1px 1px 2px rgba(0,0,0,0.65)
+map-border-radius = 4px
+
 .map-container
 	padding 0
 	margin 	0
@@ -13,31 +16,62 @@
 body.hasNavigation #map
 	top 50px
 
-.map-hud .map-controls 
-	z-index	10
-	font-size 1.7em
-	padding: 5px;
-	margin-top: 10px;
-	background-color: #fff;
-	border-radius: 4px;
-	min-height: 20px;
-	border: 1px solid #ccc;
-	box-shadow: 0 1px 7px rgba(0,0,0,0.65);
+.map-hud {
 
-.map-hud .map-directions
-	z-index	10
-	font-size 1.0em
-	overflow hidden
-	padding: 5px;
-	margin-top: 10px;
-	background-color: #fff;
-	border-radius: 4px;
-	min-height: 20px;
-	border: 1px solid #ccc;
-	box-shadow: 0 1px 7px rgba(0,0,0,0.65);
+    height: 100%;
+    overflow-y: scroll;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+
+    .map-controls {
+    	z-index	10
+    	font-size 1.7em
+    	padding: 5px;
+    	margin-top: 10px;
+    	background-color: #fff;
+    	border-radius: map-border-radius
+    	min-height: 20px;
+    	border: 1px solid #ccc;
+    	box-shadow: map-shadow;
+
+        .row {
+            margin: 0px;
+            text-align: center;
+            > div {
+                padding-left: 0px;
+                padding-right: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+                > a {
+                    text-decoration: none !important;
+                }
+                > * {
+                    padding-left: 2px;
+                    padding-right: 2px;
+                    margin-left: 2px;
+                    margin-right: 2px;
+                }
+            }
+        }
+
+    }
+    .map-directions {
+    	z-index	10
+    	font-size 1.0em
+    	overflow hidden
+    	padding: 5px;
+    	margin-top: 10px;
+    	background-color: #fff;
+    	border-radius: map-border-radius
+    	min-height: 20px;
+    	border: 1px solid #ccc;
+    	box-shadow: map-shadow;
+    }
+}
 
 .map-hud .map-directions *
-	border-radius 4px
+	border-radius map-border-radius
 
 .map-controls ul li a
 	padding 5px

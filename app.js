@@ -38,7 +38,8 @@ program
 	.option('-p, --port <port>', 'Custom Port number for website. Default is [8080].', Number, 8080)
 	.option('--production', "Turn on Production mode.", Boolean, (process.env.NODE_ENV=="production"?true:false) || false)
 	.option('--multi-core', "Turn on Multi-Core support.", Boolean, false)
-	.option('--disable-redis-store', "Turn off Redis Store for Socket.io. Will disable Multi-Core support.", Boolean, false)
+	.option('--workers <workers>', "Custom number of Worker nodes. Default is ["+numCPUs+"]. Requires multi-core enabled.", Number, numCPUs)
+    .option('--disable-redis-store', "Turn off Redis Store for Socket.io. Will disable Multi-Core support.", Boolean, false)
 	.parse(process.argv);
 
 // RedisStore is required for Multi-Core support
@@ -49,9 +50,10 @@ if (program.disableRedisStore) {
 
 if (program.multiCore && cluster.isMaster) {
 	console.log("Starting Multicore Server");
-	console.log("Detected "+numCPUs+" CPUs.");
+	//console.log("Detected "+numCPUs+" CPUs.");
+    console.log("Creating "+program.workers+" workers.");
 	// Fork workers.
-	for (var i = 0; i < numCPUs; i++) {
+	for (var i = 0; i < program.workers; i++) {
 		cluster.fork();
 	}
 	// Cluster events
