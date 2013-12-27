@@ -13,7 +13,6 @@
   "keywords": [
     "smu"
   ],
-  "license": "MIT",
   "private": true,
   "ignore": [
     "**/.*",
@@ -28,5 +27,9 @@
     ,"bootstrap": "*"
     ,"codemirror": "*"
     ,"Leaflet.awesome-markers": "*"
+    ,"Font-Awesome": "*"
+    ,"ionicons": "*"
+    ,"impress.js": "*"
+    ,"jquery.formance": "https://github.com/omarshammas/jquery.formance.git"
   }
 }
