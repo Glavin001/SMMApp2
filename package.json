@@ -48,7 +48,8 @@
     "redis": "*",
     "commander": "*",
     "beautiful-docs": "*",
-    "nodeunit": "*"
+    "nodeunit": "*",
+    "node-icalendar": "https://github.com/Glavin001/node-icalendar/tarball/master"
   },
   "engines": {
     "node": ">=0.8.14",

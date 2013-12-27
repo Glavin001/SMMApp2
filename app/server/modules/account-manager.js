@@ -8,6 +8,18 @@ var dbPort 		= 27017;
 var dbHost 		= 'localhost';
 var dbName 		= 'smmapp';
 
+
+/* Requires Login for Express */
+exports.requiresLogin = function (req, res, callback) {
+    if (req.session.user == null){
+        // if user is not logged-in redirect back to login page //
+        res.redirect( "/login?redirect="+encodeURIComponent(req.url) );
+        return;
+    } else {
+        return callback && callback(req, res); // Callback, if successfully logged in.
+    }
+};
+
 /* establish the database connection */
 
 var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});

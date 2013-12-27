@@ -4,19 +4,9 @@ var fs = require("fs");
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
+var requiresLogin = AM.requiresLogin;
 
 module.exports = function(app) {
-
-	// 
-	var requiresLogin = function (req, res, callback) {
-		if (req.session.user == null){
-			// if user is not logged-in redirect back to login page //
-			res.redirect( "/login?redirect="+encodeURIComponent(req.url) );
-			return;
-	    } else {
-	    	return callback && callback(req, res); // Callback, if successfully logged in.
-	    }
-	};
 
 // 
 	app.get('/', function(req, res) {
@@ -71,7 +61,8 @@ module.exports = function(app) {
 	});
 	
 	app.get('/admin', function(req, res) {
-		//requiresLogin(req, res, function(req, res) {
+		//TODO: Uncomment, requires login 
+        // requiresLogin(req, res, function(req, res) {
 			res.render('admin', {
 				title : 'Admin Control Panel',
 				countries : CT,
@@ -242,6 +233,10 @@ module.exports = function(app) {
 		});
 	});
 
+    // iCalendar Server
+    require('./modules/ical-server')(app);
+
+    // Catch-All
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
 
 };
