@@ -59,6 +59,7 @@ CACHE:
 /js/views/reset.js
 /js/views/signup.js
 /js/views/map.js
+/js/views/admin.js
 # SMU Data
 /data/campus.geojson
 /data/buildings.geojson
