@@ -11,21 +11,32 @@ NETWORK:
 http:/tile.cloudmade.com/
 
 CACHE:
+# Views
+/home
 # Main
 /css/style.css
+/css/map.css
 # jQuery
 /vendor/jquery.form.js
 /vendor/jquery.min.js
 # Leaflet
 /vendor/leaflet/leaflet.js
+/vendor/OSMBuildings-Leaflet.js
 /vendor/leaflet/leaflet.css
 /vendor/leaflet/leaflet.ie.css
 /vendor/leaflet/images/layers.png
 /vendor/leaflet/images/layers-2x.png
+/vendor/leaflet/images/marker-icon-2x.png  
+/vendor/leaflet/images/marker-shadow.png  
 # Twitter Bootstrap
+/bower_components/bootstrap/dist/js/bootstrap.min.js
+/vendor/bootstrap/js/bootstrap.min.js
 /vendor/bootstrap-modal.js
 /vendor/bootstrap-transition.js
-/vendor/bootstrap.min.css
+/vendor/bootstrap/css/bootstrap.min.css
+/vendor/bootstrap/fonts/glyphicons-halflings-regular.woff 
+/vendor/bootstrap/fonts/glyphicons-halflings-regular.ttf  
+/vendor/bootstrap/fonts/glyphicons-halflings-regular.svg  
 # Glyphicons
 /img/glyphicons-halflings-white.png
 /img/glyphicons-halflings.png
@@ -35,6 +46,7 @@ CACHE:
 /js/controllers/mapController.js
 /js/controllers/signupController.js
 /js/controllers/socketController.js
+/js/controllers/graphController.js
 # JS Form Validators
 /js/form-validators/accountValidator.js
 /js/form-validators/emailValidator.js
@@ -45,10 +57,13 @@ CACHE:
 /js/views/login.js
 /js/views/reset.js
 /js/views/signup.js
+/js/views/map.js
 # SMU Data
 /data/campus.geojson
+/data/buildings.geojson
+/data/pathNodes.geojson
 # Socket.io
 /socket.io/socket.io.js
 
 FALLBACK:
-/ /offline
+# / /offline
