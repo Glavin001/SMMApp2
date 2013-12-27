@@ -1,0 +1,32 @@
+{
+  "name": "SMMApp",
+  "version": "2.0.0",
+  "homepage": "https://github.com/Glavin001/SMMApp2",
+  "authors": [
+    "Glavin Wiechert <Glavin.Wiechert@gmail.com>",
+    "Andrew Masiye <amasiye313@gmail.com>",
+    "Javian Trotman <jtp3sk@gmail.com>",
+    "Daniel Lockhart <d.f.locked@gmail.com>"
+  ],
+  "description": "Saint Mary's Mobile App, Version 2.0",
+  "main": "app.js",
+  "keywords": [
+    "smu"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "*"
+    ,"leaflet": "*"
+    ,"bootstrap": "*"
+    ,"codemirror": "*"
+    ,"Leaflet.awesome-markers": "*"
+  }
+}

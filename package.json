@@ -35,6 +35,7 @@
   "private": true,
   "analyze": false,
   "dependencies": {
+    "bower": "*",
     "express": "3.0.6",
     "stylus": "0.31.0",
     "jade": "0.27.7",
@@ -46,7 +47,8 @@
     "connect": "*",
     "redis": "*",
     "commander": "*",
-    "beautiful-docs": "*"
+    "beautiful-docs": "*",
+    "nodeunit": "*"
   },
   "engines": {
     "node": ">=0.8.14",
@@ -62,14 +64,14 @@
     "email": "glavin.wiechert@gmail.com"
   },
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+  },
   "scripts": {
     "test": "./bin/benchmark.sh",
     "prestart":"echo \"IMPORTANT: MongoDB and Redis-Server must be running.\"",
     "start": "node app.js --production --multi-core",
-    "poststart": "echo \"Post-Start.\"",
     "preinstall": "echo \"IMPORTANT: MongoDB and Redis-Server must be installed.\"",
-    "postinstall": "echo \"Installation complete.\"",
+    "postinstall": "./node_modules/bower/bin/bower install",
     "predeploy": "echo This will be run before deploying the app",
     "postdeploy": "echo This will be run after deploying the app"
   },
