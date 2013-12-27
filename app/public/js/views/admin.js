@@ -26,7 +26,7 @@ $(function () {
                         */
                         var responseTime = 0;
                         socket.on('responseTime', function (data) {
-                            responseTime = responseTime + data;
+                            responseTime = data;
                         });
                         var displayResponseTime = function () {
                             var x = (new Date()).getTime(), // current time
@@ -69,7 +69,7 @@ $(function () {
                 enabled: false
             },
             series: [{
-                name: 'Response Time',
+                name: 'Average Response Time',
                 data: (function () {
                     // generate an array of random data
                     var data = [],

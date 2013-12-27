@@ -133,7 +133,16 @@ if (program.multiCore && cluster.isMaster) {
 		app.use(express.methodOverride());
 		app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 		app.use(express.static(__dirname + '/app/public'));
-		// Count requests
+		
+
+        if (!program.production) {
+            app.configure('development', function() {
+                app.use(logger); // Add logger to the stack.
+                app.use(express.errorHandler());
+            });
+        }
+
+        // Count requests
 		var countRequests = function(req, res, next) {
 			// Increment 
 			requestsPerSecond++;
@@ -144,8 +153,7 @@ if (program.multiCore && cluster.isMaster) {
 		app.use(countRequests);
         //app.use(connect.responseTime());
 
-        var customResponseTime = function responseTime(){ 
-        return function(req, res, next){ 
+        var customResponseTime = function(req, res, next) { 
             var start = new Date; 
             if (res._responseTime) 
                 return next(); 
@@ -157,7 +165,6 @@ if (program.multiCore && cluster.isMaster) {
                 allResponseTimes.push( duration ); 
             }); 
             next(); 
-            }; 
         }; 
         app.use(customResponseTime);
 
@@ -169,12 +176,7 @@ if (program.multiCore && cluster.isMaster) {
         };
 		app.use(getResponseTime);
         */
-		if (!program.production) {
-	    	app.configure('development', function() {
-				app.use(logger); // Add logger to the stack.
-				app.use(express.errorHandler());
-			});
-		}
+
 	});
 
 	// Handle Appcache request
@@ -227,12 +229,16 @@ if (program.multiCore && cluster.isMaster) {
 
     // Save and Clear every second
     function clearResponseTime() { 
-        //console.log(http.); 
-        var average = 0;
-        for (var i=0; i<allResponseTimes.length;i++)
-             average += allResponseTimes[i];
-        var lastResponseTime = average/allResponseTimes.length; 
-        allResponseTimes = []; // Push to Socket.io users who are listening 
+        // Check if no responses
+        var lastResponseTime = 0;
+        if (allResponseTimes.length > 0) {
+            var average = 0;
+            for (var i=0, len=allResponseTimes.length; i<len;i++) {
+                 average += allResponseTimes[i];
+            }
+            lastResponseTime = average/allResponseTimes.length; 
+            allResponseTimes = []; // Push to Socket.io users who are listening 
+        }
         io.sockets.in("admin").emit("responseTime", lastResponseTime); 
     } 
     setInterval(clearResponseTime, 1000);

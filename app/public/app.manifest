@@ -7,6 +7,7 @@ SETTINGS:
 prefer-online
 
 NETWORK:
+*
 http:/tile.cloudmade.com/
 
 CACHE:
