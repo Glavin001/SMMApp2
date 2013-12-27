@@ -47,6 +47,7 @@ CACHE:
 /js/controllers/signupController.js
 /js/controllers/socketController.js
 /js/controllers/graphController.js
+/js/controllers/navController.js
 # JS Form Validators
 /js/form-validators/accountValidator.js
 /js/form-validators/emailValidator.js
