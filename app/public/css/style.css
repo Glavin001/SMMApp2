@@ -26,6 +26,9 @@ body {
 body.hasNavigation {
   padding-top: 50px;
 }
+.container-full,
+margin 0auto,
+width 100%,
 h1 {
   color: #8b1c1c;
 }
