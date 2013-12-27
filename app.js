@@ -172,7 +172,7 @@ if (program.multiCore && cluster.isMaster) {
 			return callback && callback(manifest);
 	  	}
 	};
-	app.get("/appcache", function(req, res) {
+	app.get("/cache.manifest", function(req, res) {
 		//console.log("App cache");
 		getManifest(function(manifest) {
 			res.header("Content-Type", "text/cache-manifest");

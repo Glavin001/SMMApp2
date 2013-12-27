@@ -7,7 +7,6 @@ SETTINGS:
 prefer-online
 
 NETWORK:
-*
 http:/tile.cloudmade.com/
 
 CACHE:
@@ -67,4 +66,4 @@ CACHE:
 /socket.io/socket.io.js
 
 FALLBACK:
-# / /offline
+/ /home
