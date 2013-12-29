@@ -106,7 +106,7 @@
         /** 
         Graph Traversal
         */
-        function visit(graph, fn, visited) {
+        function visit(graph, fn, visited, results) {
             var end = true;
             for (node in graph) {
                 var cVisited = visited.slice(0);
@@ -114,7 +114,7 @@
                     end = false;
                     cVisited.push(node);
                     fn(cVisited.slice(0));
-                    visit(graph[node], fn, cVisited.slice(0));
+                    visit(graph[node], fn, cVisited.slice(0), results);
                 } else {
                     //console.log("Already visited:", node, visited);
                 }
@@ -122,19 +122,15 @@
             }
             //console.log("Done with graph:", graph);
             if (end) {
-                console.log(visited.slice(0));
+                //console.log(visited.slice(0));
+                results.push(visited.slice(0));
             }
         };
-        var depthFirstSearch = function (node, graph, fn) {
+        var depthFirstSearch = function (node, graph, results, fn) {
             var nodes = {};
             nodes[node] = graph[node];
-            visit(nodes, fn, []);
+            visit(nodes, fn, [], results);
         };
-
-        /**
-        Non-Recursive
-        */
-
 
         /**
         Sorting
@@ -165,13 +161,7 @@
                         // Check if conflicts
                         if (!self.events[i].conflictsWith(self.events[j])) {
                             //console.log("Not Conflict", result);
-                            if (self.events[i].earlierThan(self.events[j]) <= 0) {
-                                console.log("Earlier");
-                                result[i][j] = result[j];
-                            } else {
-                                console.log("Later");
-                                result[j][i] = result[i];
-                            }
+                            result[i][j] = result[j];
                         } else {
                             //console.log("Conflicts");
                         }
@@ -186,18 +176,15 @@
         self.traverse = function( ) {
             var g = graph();
             var results = [ ];
-            //for (var i=0, len=self.events.length; i<len; i++) 
-            for (var i=0, len=1; i<len; i++) 
+            for (var i=0, len=self.events.length; i<len; i++) 
             {
                 var viable = [ ];
                 var current = self.events[i];
-                depthFirstSearch(i, g, function (n) {
-                    var t = n.slice(0);
-                    //console.log(t);
-                    //viable.push(n.splice(0));
-                    viable.push(t);
+                depthFirstSearch(i, g, results, function (n) {
+                    //var t = n.slice(0);
+                    //viable.push(t);
                 });
-                results.push(viable);
+                //results.push(viable.slice(0));
             }
             return { "events": self.events, "results": results, "graph": g };
         };
@@ -217,9 +204,52 @@
         // Create Graph
         var graph = new self.EventGraph(events);
         // Traverse
-        var results = graph.traverse();
+        var data = graph.traverse();
+        var results = (data.results).slice(0);
+        // Get unique results that are not subsets
+        var subResults = [ ];
+        //console.log(results);
+        for (var i=0, len=results.length; i<len; i++) {
+            //console.log(results);
+            var a = results[i];
+            var isSubset = false;
+            for (var j=0; j<len; j++) {
+                var b = results[j];
+                if (a===b) {
+                    continue;
+                } else {
+                    // console.log(a,b);
+                    if ( a.every(
+                        function(val) { 
+                            return b.indexOf(val) >= 0; 
+                        }) ) {
+                        isSubset = true;
+                        break;
+                    }
+
+                }
+            }
+            if (!isSubset) {
+                //console.log(a, subResults);
+                subResults.push(a.slice(0));
+            }
+        }
+        // Convert results with Event indices to results with Event objects.
+        var finalResults = [ ];
+        for (var i=0, iLen=subResults.length; i<iLen; i++) 
+        {
+            var curr = [ ];
+            for (var j=0, jLen=subResults[i].length; i<jLen; j++)
+            {
+                var pos = subResults[i][j];
+                //console.log(pos, graph.events);
+                var e = graph.events[pos];
+                curr.push(e);
+            }
+            finalResults.push(curr);
+        }
         // Return
-        return results;
+        return finalResults.slice(0);
     };
 
     return self;
@@ -248,9 +278,10 @@ courses.push( new Event({ days:[0], time: { start: 1240, end: 1320 }, interval: 
 courses.push( new Event({ days:[0], time: { start: 1300, end: 1700 }, interval: { start: new Date(), end: new Date() } }) );
 courses.push( new Event({ days:[0], time: { start: 1840, end: 1920 }, interval: { start: new Date(), end: new Date() } }) );
 courses.push( new Event({ days:[0], time: { start: 1920, end: 2000 }, interval: { start: new Date(), end: new Date() } }) );
+var schedules = scheduleController.schedule(courses, {});
+console.log( schedules );
 
-console.log( scheduleController.schedule(courses, {}) );
-
+/*
 // Exmaple building graph object
 var graph = {
     "1":  {},
@@ -271,6 +302,7 @@ var graph = {
     graph[edge[1]][edge[0]] = graph[edge[0]];
 });
 console.log(graph);
+*/
 
 $(document).ready(function() {
 
