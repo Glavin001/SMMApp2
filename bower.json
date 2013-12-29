@@ -31,5 +31,6 @@
     ,"ionicons": "*"
     ,"impress.js": "*"
     ,"jquery.formance": "https://github.com/omarshammas/jquery.formance.git"
+    ,"fullcalendar": "*"
   }
 }

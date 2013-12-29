@@ -95,6 +95,14 @@ module.exports = function(app) {
 		});
 	});
 
+    app.get('/schedule', function(req, res) {
+        res.render('schedule', {
+            title : 'Schedule',
+            countries : CT,
+            udata : ( req.session.user )
+        });
+    });
+
 // logged-in user homepage //	
 	app.get('/home', function(req, res) {
 		//console.log("User:", req.session.user);

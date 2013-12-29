@@ -107,12 +107,22 @@
         Graph Traversal
         */
         function visit(graph, fn, visited) {
+            var end = true;
             for (node in graph) {
-                if (-1 === visited.indexOf(node)) {
-                    visited.push(node);
-                    fn(node);
-                    visit(graph[node], fn, visited);
+                var cVisited = visited.slice(0);
+                if (-1 === cVisited.indexOf(node)) {
+                    end = false;
+                    cVisited.push(node);
+                    fn(cVisited.slice(0));
+                    visit(graph[node], fn, cVisited.slice(0));
+                } else {
+                    //console.log("Already visited:", node, visited);
                 }
+                //console.log("Done with node:", node);
+            }
+            //console.log("Done with graph:", graph);
+            if (end) {
+                console.log(visited.slice(0));
             }
         };
         var depthFirstSearch = function (node, graph, fn) {
@@ -120,6 +130,11 @@
             nodes[node] = graph[node];
             visit(nodes, fn, []);
         };
+
+        /**
+        Non-Recursive
+        */
+
 
         /**
         Sorting
@@ -139,15 +154,24 @@
             // 
             for (var i=0, iLen=self.events.length; i<iLen; i++) {
                 result[i] = { };
+            }
+            //console.log(JSON.stringify(result));
+            for (var i=0, iLen=self.events.length; i<iLen; i++) {
+                //result[i] = { };
                 for (var j=i, jLen=self.events.length; j<jLen; j++) {
-                    result[j] = result[j] || { };
+                    result[j] = result[j];// || { };
                     // Check if not same node
                     if (i!==j) {
                         // Check if conflicts
                         if (!self.events[i].conflictsWith(self.events[j])) {
                             //console.log("Not Conflict", result);
-                            result[i][j] = result[j];
-                            result[j][i] = result[i];   
+                            if (self.events[i].earlierThan(self.events[j]) <= 0) {
+                                console.log("Earlier");
+                                result[i][j] = result[j];
+                            } else {
+                                console.log("Later");
+                                result[j][i] = result[i];
+                            }
                         } else {
                             //console.log("Conflicts");
                         }
@@ -162,16 +186,20 @@
         self.traverse = function( ) {
             var g = graph();
             var results = [ ];
-            for (var i=0, len=self.events.length; i<len; i++) 
+            //for (var i=0, len=self.events.length; i<len; i++) 
+            for (var i=0, len=1; i<len; i++) 
             {
                 var viable = [ ];
                 var current = self.events[i];
                 depthFirstSearch(i, g, function (n) {
-                    viable.push(n);
+                    var t = n.slice(0);
+                    //console.log(t);
+                    //viable.push(n.splice(0));
+                    viable.push(t);
                 });
                 results.push(viable);
             }
-            return { "results": results, "graph": g };
+            return { "events": self.events, "results": results, "graph": g };
         };
 
         /**
@@ -243,3 +271,15 @@ var graph = {
     graph[edge[1]][edge[0]] = graph[edge[0]];
 });
 console.log(graph);
+
+$(document).ready(function() {
+
+    // page is now ready, initialize the calendar...
+
+    $('#calendar').fullCalendar({
+        // put your options and callbacks here
+        'defaultView': 'agendaWeek'
+        ,'height': '300'
+    })
+
+});
