@@ -65,7 +65,7 @@ if (program.multiCore && cluster.isMaster) {
         //console.log('listening', worker.id, address);
     });
     cluster.on('exit', function(worker, code, signal) {
-        console.log('worker ' + worker.process.pid + ' died');
+        console.warn('Worker ' + worker.process.pid + ' died');
     });
 } else {
     if (program.multiCore) {
@@ -86,14 +86,25 @@ if (program.multiCore && cluster.isMaster) {
     
     if (!program.disableRedisStore) {
         // Clustering Socket.io, use Redis for storage
-        var pub = redis.createClient();
-        var sub = redis.createClient();
+        var redisErrorHandler = function(e) {
+            console.error("Redis Error: ", e);
+            console.log("Recommend disabling Redis Store:");
+            console.log("   node app.js --disable-redis-store")
+            process.exit(1);
+        };
         var client = redis.createClient();
+        client.on('error', redisErrorHandler);
+        var pub = redis.createClient();
+        pub.on('error', redisErrorHandler);
+        var sub = redis.createClient();
+        sub.on('error', redisErrorHandler);
+        // Set Socket.io to use RedisStore
         io.set("store", new RedisStore({
             redisPub: pub,
             redisSub: sub,
             redisClient: client
         }));
+        
     }
     
     // Customize for Production server
