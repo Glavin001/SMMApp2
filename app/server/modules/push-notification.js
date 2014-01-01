@@ -1,13 +1,13 @@
 // Twilio Credentials
-var creds = require("./twilio-cred");
+var config = require("../../../config");
 
 //require the Twilio module and create a REST client 
-var client = require('twilio')(creds.glavin.sid, creds.glavin.token);
+var client = require('twilio')(config.twilio.sid, config.twilio.token);
 
 module.exports = function (o) {
     client.messages.create({
         to: o.to,
-        from: creds.glavin.number,
+        from: config.twilio.number,
         body: o.message
     }, function (err, message) {
         console.log("Twilio SMS push error.sid: " + message.sid);

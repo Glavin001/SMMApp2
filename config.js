@@ -61,7 +61,7 @@ config.facebook = {
 };
 // Twitter
 config.twitter = {
-    enabled: false,
+    enabled: false
     , consumerKey: '...'
     , consumerSecret: '...'
     , accessToken: '...'
