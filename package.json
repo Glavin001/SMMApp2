@@ -49,6 +49,7 @@
     "commander": "*",
     "beautiful-docs": "*",
     "nodeunit": "*",
+	"twilio": "*",
     "node-icalendar": "https://github.com/Glavin001/node-icalendar/tarball/master"
   },
   "engines": {
