@@ -35,22 +35,22 @@
   "private": true,
   "analyze": false,
   "dependencies": {
-    "bower": "*",
-    "express": "3.0.6",
-    "stylus": "0.31.0",
-    "jade": "0.27.7",
-    "mongodb": "1.2.7",
-    "moment": "1.7.2",
-    "emailjs": "0.3.3",
-    "socket.io": "*",
-    "cookie": "*",
-    "connect": "*",
-    "redis": "*",
-    "commander": "*",
-    "beautiful-docs": "*",
-    "nodeunit": "*",
-	"twilio": "*",
-    "node-icalendar": "https://github.com/Glavin001/node-icalendar/tarball/master"
+    "bower": "1.2.8"
+    ,"express": "3.0.6"
+    ,"stylus": "0.31.0"
+    ,"jade": "0.27.7"
+    ,"mongodb": "1.2.7"
+    ,"moment": "1.7.2"
+    ,"emailjs": "0.3.3"
+    ,"socket.io": "0.9.16"
+    ,"cookie": "0.1.0"
+    ,"connect": "2.11.0"
+    ,"redis": "0.9.0"
+    ,"commander": "2.1.0"
+    ,"beautiful-docs": ""
+    ,"nodeunit": "0.8.2"
+    ,"node-icalendar": "https://github.com/Glavin001/node-icalendar/tarball/master"
+	,"twilio": "1.5.0"
   },
   "engines": {
     "node": ">=0.10.24",
