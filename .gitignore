@@ -1,5 +1,5 @@
 # Custom Configuration (Personal/Per Installation)
-config.json
+config.custom.js
 
 # Node.js
 npm-debug.log

@@ -1,7 +1,0 @@
-{
-    "production_mode": false
-    ,"server_port": 8080
-    ,"multiCore": false
-    ,"workers": false
-    ,"disableRedisStore": false
-}

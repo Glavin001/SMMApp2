@@ -11,6 +11,7 @@
 **/
 
 // Dependencies
+var config = require("./config"); // Load Configuration module
 var pjson = require('./package.json');
 var fs = require("fs");
 var express = require('express');
@@ -29,65 +30,21 @@ var numCPUs = require('os').cpus().length;
 var RedisStore = require("socket.io/lib/stores/redis");
 var redis = require("socket.io/node_modules/redis");
 
-// Configuration
-var config = { }; // Empty config
-try {
-    // Load default configuration
-    config = require('./config.default.json');
-    try {
-        // Attempt to load custom configuration file
-        var customConfig = require('./config.json');
-        // Replace the custom values
-        for (var k in customConfig) {
-            config[k] = customConfig[k]; // Replace with custom configuration
-        }
-    } catch(e) {
-        console.warn("File config.json is not found or is invalid.");
-        console.log("Use `cp config.default.json config.json` to create a custom configuration from the default.");
-        //process.exit(1); // Use the default, gracefully and silently fallback.
-    }
-} catch (e) {
-    // Error loading or parsing default configuration, which is required.
-    console.error("File config.default.json is not found or is invalid.");
-    console.log("Please resolve this issue and try again.");
-    process.exit(1);
-}
-
-// Process command line arguments
-program
-    .version(pjson.version)
-    .option('-p, --port <port>', 'Custom Port number for website. Default is ['+config.server_port+'].', Number, config.server_port)
-    .option('--production', "Turn on Production mode.", Boolean, (process.env.NODE_ENV=="production"?true:false) || false)
-    .option('--multi-core', "Turn on Multi-Core support.", Boolean, config.multiCore)
-    .option('--workers <workers>', "Custom number of Worker nodes. Default is ["+(config.workers||numCPUs)+"]. Requires multi-core enabled.", Number, (config.workers||numCPUs))
-    .option('--disable-redis-store', "Turn off Redis Store for Socket.io. Will disable Multi-Core support.", Boolean, config.disableRedisStore)
-    .parse(process.argv);
-
-// Allow configuration to toggle Multi-Core.
-if (program.multiCore === undefined) {
-    program.multiCore = config.multiCore;
-}
-// Allow configuration to toggle Redis Store
-if (program.disableRedisStore === undefined) {
-    program.disableRedisStore = config.disableRedisStore;
-}
-// Allow configuration to toggle Production mode
-if (program.production === undefined) {
-    program.production = config.production_mode;
-}
+// Process Command Line Arguments
+config.processArgs(process.argv);
 
 // RedisStore is required for Multi-Core support
-if (program.disableRedisStore) {
-    program.multiCore && console.log("RedisStore is required for Multi-Core support.");
-    program.multiCore = false;
+if (!config.redis.enabled) {
+    config.server.multiCore && console.log("RedisStore is required for Multi-Core support.");
+    config.server.multiCore = false;
 }
 
-if (program.multiCore && cluster.isMaster) {
+if (config.server.multiCore && cluster.isMaster) {
     console.log("Starting Multicore Server");
     //console.log("Detected "+numCPUs+" CPUs.");
-    console.log("Creating "+program.workers+" workers.");
+    console.log("Creating "+config.server.workers+" workers.");
     // Fork workers.
-    for (var i = 0; i < program.workers; i++) {
+    for (var i = 0; i < config.server.workers; i++) {
         cluster.fork();
     }
     // Cluster events
@@ -101,7 +58,7 @@ if (program.multiCore && cluster.isMaster) {
         console.warn('Worker ' + worker.process.pid + ' died');
     });
 } else {
-    if (program.multiCore) {
+    if (config.server.multiCore) {
         //console.log("Started worker node");
     } else {
         // Must be master
@@ -117,7 +74,7 @@ if (program.multiCore && cluster.isMaster) {
         next(); // Passing the request to the next handler in the stack.
     };
     
-    if (!program.disableRedisStore) {
+    if (config.redis.enabled) {
         // Clustering Socket.io, use Redis for storage
         var redisErrorHandler = function(e) {
             console.error("Redis Error: ", e);
@@ -125,11 +82,11 @@ if (program.multiCore && cluster.isMaster) {
             console.log("   node app.js --disable-redis-store")
             process.exit(1);
         };
-        var client = redis.createClient();
+        var client = redis.createClient(config.redis.port, config.redis.host, config.redis.options);
         client.on('error', redisErrorHandler);
-        var pub = redis.createClient();
+        var pub = redis.createClient(config.redis.port, config.redis.host, config.redis.options);
         pub.on('error', redisErrorHandler);
-        var sub = redis.createClient();
+        var sub = redis.createClient(config.redis.port, config.redis.host, config.redis.options);
         sub.on('error', redisErrorHandler);
         // Set Socket.io to use RedisStore
         io.set("store", new RedisStore({
@@ -141,7 +98,7 @@ if (program.multiCore && cluster.isMaster) {
     }
     
     // Customize for Production server
-    if (program.production) {
+    if (config.server.production) {
         // Socket.io
         io.enable('browser client minification');  // send minified client
         io.enable('browser client etag');          // apply etag caching logic based on version number
@@ -165,7 +122,7 @@ if (program.multiCore && cluster.isMaster) {
     });
 
     app.configure(function(){
-        app.set('port', program.port);
+        app.set('port', config.server.port);
         app.set('views', __dirname + '/app/server/views');
         app.set('view engine', 'jade');
         app.locals.pretty = true;
@@ -180,7 +137,7 @@ if (program.multiCore && cluster.isMaster) {
         app.use(express.static(__dirname + '/app/public'));
         
 
-        if (!program.production) {
+        if (!config.server.production) {
             app.configure('development', function() {
                 app.use(logger); // Add logger to the stack.
                 app.use(express.errorHandler());
@@ -251,17 +208,17 @@ if (program.multiCore && cluster.isMaster) {
     app.get("/specs.json", function(req, res) {
         var specs = { };
         specs.version = pjson.version;
-        specs.workers = (program.multiCore)?program.workers:1;
-        specs.redis = !program.disableRedisStore;
-        specs.production = !!program.production;
-        specs.port = program.port;
+        specs.workers = (config.server.multiCore)?config.server.workers:1;
+        specs.redis = config.redis.enabled;
+        specs.production = !!config.server.production;
+        specs.port = config.server.port;
         return res.json(specs);
     });
 
     require('./app/server/router')(app);
 
     server.listen(app.get('port'), function() {
-        console.log((program.production?"Production ":"")+"Express server listening on port " + app.get('port'));
+        console.log((config.server.production?"Production ":"")+"Express server listening on port " + app.get('port'));
     });
 
     // Performance Stats
