@@ -53,13 +53,10 @@
     "node-icalendar": "https://github.com/Glavin001/node-icalendar/tarball/master"
   },
   "engines": {
-    "node": ">=0.8.14",
-    "npm": ">=1.1.65"
+    "node": ">=0.10.24",
+    "npm": ">=1.3.21"
   },
   "config": {
-    "port": 8080,
-    "production": false,
-    "multicore": false
   },
   "bugs": {
     "url": "https://github.com/Glavin001/SMMApp2/issues",

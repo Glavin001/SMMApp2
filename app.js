@@ -29,19 +29,52 @@ var numCPUs = require('os').cpus().length;
 var RedisStore = require("socket.io/lib/stores/redis");
 var redis = require("socket.io/node_modules/redis");
 
-// Performance Stats
-var requestsPerSecond = 0;
-var allResponseTimes = [];
+// Configuration
+var config = { }; // Empty config
+try {
+    // Load default configuration
+    config = require('./config.default.json');
+    try {
+        // Attempt to load custom configuration file
+        var customConfig = require('./config.json');
+        // Replace the custom values
+        for (var k in customConfig) {
+            config[k] = customConfig[k]; // Replace with custom configuration
+        }
+    } catch(e) {
+        console.warn("File config.json is not found or is invalid.");
+        console.log("Use `cp config.default.json config.json` to create a custom configuration from the default.");
+        //process.exit(1); // Use the default, gracefully and silently fallback.
+    }
+} catch (e) {
+    // Error loading or parsing default configuration, which is required.
+    console.error("File config.default.json is not found or is invalid.");
+    console.log("Please resolve this issue and try again.");
+    process.exit(1);
+}
 
 // Process command line arguments
 program
     .version(pjson.version)
-    .option('-p, --port <port>', 'Custom Port number for website. Default is [8080].', Number, 8080)
+    .option('-p, --port <port>', 'Custom Port number for website. Default is ['+config.server_port+'].', Number, config.server_port)
     .option('--production', "Turn on Production mode.", Boolean, (process.env.NODE_ENV=="production"?true:false) || false)
-    .option('--multi-core', "Turn on Multi-Core support.", Boolean, false)
-    .option('--workers <workers>', "Custom number of Worker nodes. Default is ["+numCPUs+"]. Requires multi-core enabled.", Number, numCPUs)
-    .option('--disable-redis-store', "Turn off Redis Store for Socket.io. Will disable Multi-Core support.", Boolean, false)
+    .option('--multi-core', "Turn on Multi-Core support.", Boolean, config.multiCore)
+    .option('--workers <workers>', "Custom number of Worker nodes. Default is ["+(config.workers||numCPUs)+"]. Requires multi-core enabled.", Number, (config.workers||numCPUs))
+    .option('--disable-redis-store', "Turn off Redis Store for Socket.io. Will disable Multi-Core support.", Boolean, config.disableRedisStore)
     .parse(process.argv);
+
+// Allow configuration to toggle Multi-Core.
+if (program.multiCore === undefined) {
+    program.multiCore = config.multiCore;
+}
+// Allow configuration to toggle Redis Store
+if (program.disableRedisStore === undefined) {
+    program.disableRedisStore = config.disableRedisStore;
+}
+// Allow configuration to toggle Production mode
+if (program.production === undefined) {
+    program.production = config.production_mode;
+}
 
 // RedisStore is required for Multi-Core support
 if (program.disableRedisStore) {
@@ -65,7 +98,7 @@ if (program.multiCore && cluster.isMaster) {
         //console.log('listening', worker.id, address);
     });
     cluster.on('exit', function(worker, code, signal) {
-        console.log('worker ' + worker.process.pid + ' died');
+        console.warn('Worker ' + worker.process.pid + ' died');
     });
 } else {
     if (program.multiCore) {
@@ -86,14 +119,25 @@ if (program.multiCore && cluster.isMaster) {
     
     if (!program.disableRedisStore) {
         // Clustering Socket.io, use Redis for storage
-        var pub = redis.createClient();
-        var sub = redis.createClient();
+        var redisErrorHandler = function(e) {
+            console.error("Redis Error: ", e);
+            console.log("Recommend disabling Redis Store:");
+            console.log("   node app.js --disable-redis-store")
+            process.exit(1);
+        };
         var client = redis.createClient();
+        client.on('error', redisErrorHandler);
+        var pub = redis.createClient();
+        pub.on('error', redisErrorHandler);
+        var sub = redis.createClient();
+        sub.on('error', redisErrorHandler);
+        // Set Socket.io to use RedisStore
         io.set("store", new RedisStore({
             redisPub: pub,
             redisSub: sub,
             redisClient: client
         }));
+        
     }
     
     // Customize for Production server
@@ -220,6 +264,10 @@ if (program.multiCore && cluster.isMaster) {
         console.log((program.production?"Production ":"")+"Express server listening on port " + app.get('port'));
     });
 
+    // Performance Stats
+    var requestsPerSecond = 0;
+    var allResponseTimes = [];
+
     // Save and Clear every second
     function clearRequestsPerSecond() {
         //console.log('clearRequestsPerSecond');
@@ -259,7 +307,7 @@ if (program.multiCore && cluster.isMaster) {
 
     // Graceful shutdown
     var shutdown = function() {
-        console.log("Closing SMU Mobile App...");
+        console.log("Closing "+pjson.name+"...");
         // Tell all Sockets that server is shutting down.
         io.sockets.emit('signal', {'message':'shutdown'});
         server.close(); // Close Express
