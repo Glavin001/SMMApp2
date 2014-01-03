@@ -17,6 +17,7 @@ CACHE:
 /css/style.css
 /css/map.css
 # jQuery
+/bower_components/jquery/jquery.min.js
 /vendor/jquery.form.js
 /vendor/jquery.min.js
 # Leaflet
@@ -26,10 +27,16 @@ CACHE:
 /vendor/leaflet/leaflet.ie.css
 /vendor/leaflet/images/layers.png
 /vendor/leaflet/images/layers-2x.png
+/vendor/leaflet/images/marker-icon.png
 /vendor/leaflet/images/marker-icon-2x.png  
 /vendor/leaflet/images/marker-shadow.png  
 # Twitter Bootstrap
 /bower_components/bootstrap/dist/js/bootstrap.min.js
+/bower_components/bootstrap/dist/css/bootstrap.min.css
+/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff 
+/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf  
+/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg  
+
 /vendor/bootstrap/js/bootstrap.min.js
 /vendor/bootstrap-modal.js
 /vendor/bootstrap-transition.js

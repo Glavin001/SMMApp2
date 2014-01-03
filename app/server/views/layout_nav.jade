@@ -10,7 +10,9 @@ html(lang="en", manifest="cache.manifest")
         meta(http-equiv="expires", content="Tue, 01 Jan 1980 1:00:00 GMT")
         meta(http-equiv="pragma", content="no-cache")
         */
-        include vendors
+        //include vendors
+        include bower_components
+        script(src="/js/controllers/socketController.js")       
 
         link(rel='stylesheet', href='/css/style.css')
         link(rel='stylesheet', href='/css/map.css')
