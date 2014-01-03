@@ -41,20 +41,96 @@ if (!config.redis.enabled) {
     config.server.multiCore = false;
 }
 
+// Cluster / Multi-Core
 if (config.server.multiCore && cluster.isMaster) {
     console.log("Starting Multicore Server");
     //console.log("Detected "+numCPUs+" CPUs.");
-    console.log("Creating "+config.server.workers+" workers.");
+
+    // Broadcast
+    var broadcastToChildWorkers = function (msg) {
+        //console.log("broadcastToChildWorkers: ", msg);
+        for (var id in cluster.workers) {
+            var worker = cluster.workers[id];
+            worker.send(msg);
+        }
+    };
+    // AutoScaling of Cluster
+    var heavyLoadCount = 0; // Count number of Heavy Load messages occur
+    var startWorker = function() {
+        //console.log("Scaling Up");
+        //console.log(cluster.workers);
+        if ( cluster.workers && Object.keys(cluster.workers).length < config.server.workers ) {
+            // Still room for more workers
+            //console.log("New Worker.");
+            var worker = cluster.fork();
+            // Receive messages from Worker (to Master)
+            worker.on('message', function(msg) {
+                //console.log("Message from Worker: ", msg);
+                if (msg.heavyLoad) {
+                    if (msg.heavyLoad == true) {
+                        heavyLoadCount++;
+                    } else {
+                        // Nothing
+                    }
+                }
+            });
+            // Tell Child Workers the number of workers in the cluster
+            broadcastToChildWorkers({ workersCount: Object.keys(cluster.workers).length });
+        } else {
+            // Max number of workers already running
+            //console.log("Max number of workers already running.");
+        }
+    };
+    var killWorker = function() {
+        //console.log("Scaling Down");
+        //console.log(cluster.workers);
+        if ( cluster.workers && Object.keys(cluster.workers).length > 1) {
+            // More than 1 Worker left. Kill one.
+            for (var id in cluster.workers) {
+                var worker = cluster.workers[id];
+                //console.log("Killed Worker");
+                worker.kill();
+                break;
+            }
+            // Tell Child Workers the number of workers in the cluster
+            broadcastToChildWorkers({ workersCount: Object.keys(cluster.workers).length });
+        } else {
+            // Only 1 Worker left. Save it.
+            //console.log("Only 1 Worker left. Save it.");
+        }
+    };
+    var checkLoad = function( ) {
+        //console.log("checkLoad: ", heavyLoadCount);
+        if (heavyLoadCount > 0) {
+            startWorker();
+        } else {
+            killWorker();
+        }
+        // Clear
+        heavyLoadCount = 0;
+    };
+    setInterval(checkLoad, 2000); // Every second
+
+
+    //console.log("Creating "+config.server.workers+" workers.");
     // Fork workers.
-    for (var i = 0; i < config.server.workers; i++) {
-        cluster.fork();
+    if (config.server.autoScaling) {
+        // Only start one worker node, until heavier load requires more.
+        startWorker();
+    } else {
+        // AutoScaling is disabled, start maximum number of workers.
+        for (var i = 0; i < config.server.workers; i++) {
+            startWorker();
+        }
     }
+
+
     // Cluster events
     cluster.on('fork', function(worker) {
-        //console.log('fork', worker.id);
+        console.log('fork', worker.id);
     });
     cluster.on('listening', function(worker, address) {
-        //console.log('listening', worker.id, address);
+        console.log('listening', worker.id, address);
     });
     cluster.on('exit', function(worker, code, signal) {
         console.warn('Worker ' + worker.process.pid + ' died');
@@ -66,6 +142,33 @@ if (config.server.multiCore && cluster.isMaster) {
         // Must be master
         console.log("Started single master node");
     }
+
+    // Receive messages from Master
+    process.on('message', function(msg) {
+        if (msg.workersCount) {
+            config.server.workers = msg.workersCount;
+        }
+    });
+
+    // Check on interval
+    var checkLoad = function( ) {
+        // Check Express load.
+        if (config.server.autoScaling) {
+            var isTooBusy = toobusy();
+            var lag = toobusy.lag();
+            //console.log(isTooBusy, lag, config.server.maxLag);
+            if (isTooBusy || ( lag > config.server.maxLag)) {
+                // startWorker();
+                process.send({heavyLoad: true});
+            } else {
+                //killWorker();
+                process.send({heavyLoad: false});
+            }
+        }
+        // TODO: Check Socket.io load,
+    };
+    setInterval(checkLoad, 2000); // Every second
+
 
     // Workers can share any TCP connection
     // In this case its a HTTP server
@@ -152,7 +255,8 @@ if (config.server.multiCore && cluster.isMaster) {
         // middleware which blocks requests when we're too busy
         app.use(function(req, res, next) {
             // Only Too Busy if toobusy is enabled.
-            if (toobusy() && config.server.toobusy) {
+            var isTooBusy = toobusy();
+            if (isTooBusy && config.server.toobusy) {
                 //console.log("Toobusy!");
                 res.send(503, "I'm busy right now, sorry. "+toobusy.lag() );
             } else {

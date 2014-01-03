@@ -17,6 +17,12 @@ config.server.port = process.env.WEB_PORT || 8080;
 config.server.multiCore = false;
 config.server.workers = numCPUs;
 
+// AutoScaling: 
+// Uses only 1 worker until under heavy load, 
+// then scales up to (config.server.workers) number of workers. 
+// When disabled, and multiCore enabled, the maximum number of workers will be running at all times.
+config.server.autoScaling = false;
+
 // Toobusy, https://github.com/lloyd/node-toobusy
 config.server.toobusy = false; // Enable toobusy by default
 config.server.maxLag = 70; // Maximum amount of time in milliseconds that the event queue is behind, before we consider the process too busy.
