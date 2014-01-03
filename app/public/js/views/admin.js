@@ -1,16 +1,37 @@
 $(function () {
     $(document).ready(function() {
 
-        // Load Specs
-        $.getJSON("specs.json",function(data) {
-            console.log(data);
-            $('.version-number').text(data.version);
-            $('.production-mode-enabled').text(data.production);
-            $('.redis-enabled').text(data.redis);
-            $('.num-of-workers').text(data.workers);
-            $('.port-num').text(data.port);
-            $('.num-of-users').text(1);
-        });
+        var $versionNumber = $('.version-number');
+        var $productionMode = $('.production-mode-enabled');
+        var $redis = $('.redis-enabled');
+        var $workers = $('.num-of-workers');
+        var $port = $('.port-num');
+        var $users = $('.num-of-users');
+        var $os = $('.operating-system');
+        var $uptime = $('.uptime');
+        var $memoryUsage = $('.memory-usage');
+
+        // Useful source: http://www.erichynds.com/blog/a-recursive-settimeout-pattern 
+        // new hotness
+        (function loopsiloop(){
+           setTimeout(function(){
+                // Load Specs
+                $.getJSON("specs.json",function(data) {
+                    //console.log(data);
+                    $versionNumber.text(data.version);
+                    $productionMode.text(data.production?"Yes":"No");
+                    $redis.text(data.redis?"Enabled":"Disabled");
+                    $workers.text(data.workers);
+                    $port.text(data.port);
+                    //$users.text(1);
+                    $os.text(data.os.type+", "+data.os.arch);
+                    $uptime.text(data.uptime+" seconds");
+                    $memoryUsage.text( (data.memoryUsage.heapUsed / data.memoryUsage.heapTotal * 100).toFixed(2) +"% (" + (data.memoryUsage.heapUsed/1024/1024).toFixed(1) + " / " + (data.memoryUsage.heapTotal/1024/1024).toFixed(1) + " MB)");
+                    // Recurse and refresh display!
+                    loopsiloop(); // Recurse
+                });
+           }, 1000);
+        })();
 
         // Charts
         Highcharts.setOptions({
@@ -47,7 +68,7 @@ $(function () {
                                 y = currentUsers;
                             series.addPoint([x, y], true, true);
                             // Display
-                            $('.num-of-users').text(y);
+                            $users.text(y);
                             // Clear
                             currentUsers = 0;
                         };

@@ -13,6 +13,7 @@
 // Dependencies
 var config = require("./config"); // Load Configuration module
 var pjson = require('./package.json');
+var os = require("os");
 var fs = require("fs");
 var express = require('express');
 var http = require('http');
@@ -25,7 +26,7 @@ var cluster = require('cluster');
 var http = require('http');
 var program = require('commander');
 // 
-var numCPUs = require('os').cpus().length;
+var numCPUs = os.cpus().length;
 // Redis
 var RedisStore = require("socket.io/lib/stores/redis");
 var redis = require("socket.io/node_modules/redis");
@@ -212,6 +213,13 @@ if (config.server.multiCore && cluster.isMaster) {
         specs.redis = config.redis.enabled;
         specs.production = !!config.server.production;
         specs.port = config.server.port;
+        specs.os = {
+            type: os.type(),
+            platform: os.platform(),
+            arch: os.arch()
+        };
+        specs.uptime = process.uptime();
+        specs.memoryUsage = process.memoryUsage();
         return res.json(specs);
     });
 
