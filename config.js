@@ -17,6 +17,10 @@ config.server.port = process.env.WEB_PORT || 8080;
 config.server.multiCore = false;
 config.server.workers = numCPUs;
 
+// Toobusy, https://github.com/lloyd/node-toobusy
+config.server.toobusy = false; // Enable toobusy by default
+config.server.maxLag = 70; // Maximum amount of time in milliseconds that the event queue is behind, before we consider the process too busy.
+
 // Advanced
 /** 
 Redis
@@ -124,6 +128,9 @@ config.processArgs = function(argv) {
         .option('--workers <workers>', "Custom number of Worker nodes. Default is number of CPUs ["+config.server.workers+"]. Requires multi-core enabled.", Number, config.server.workers)
         .option('--disable-redis', "Turn off usage of Redis. Will disable Multi-Core support.", Boolean, !config.redis.enabled)
         .option('--custom-config <absolutePathToConfig>', "Load a custom configuration module. Remember to use ./ in front of filename.js", String)
+        .option('--disable-toobusy', "Turn off TooBusy.", Boolean, !config.server.toobusy)
+        .option('--max-lag <lag>', "Maximum time (milliseconds) that the event queue is behind, before the request is considered too busy.  Default is ["+config.server.maxLag+"] ms. Requires TooBusy enabled.", Number, config.server.maxLag)
+        .option('--display-config', "Print the current configuration.", Boolean, false)
         .parse(argv);
 
     /*
@@ -171,6 +178,20 @@ config.processArgs = function(argv) {
     // Allow arguments to toggle Redis Store
     if (program.disableRedisStore !== undefined) {
         config.redis.enabled = !program.disableRedisStore;
+    }
+    // Allow arguments to toggle TooBusy
+    if (program.disableToobusy !== undefined) {
+        config.server.toobusy = !program.disableToobusy;
+    }
+    // Allow arguments to edit Workers
+    if (program.maxLag !== undefined) {
+        config.server.maxLag = program.maxLag;
+    }   
+
+    // Display the current configuration
+    if (program.displayConfig) {
+        console.log(JSON.stringify(config, null, 4));
+        process.exit(0);
     }
 
 };

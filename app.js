@@ -25,6 +25,7 @@ var connect = require("connect");
 var cluster = require('cluster');
 var http = require('http');
 var program = require('commander');
+var toobusy = require('toobusy');
 // 
 var numCPUs = os.cpus().length;
 // Redis
@@ -145,6 +146,20 @@ if (config.server.multiCore && cluster.isMaster) {
             });
         }
 
+        //- Toobusy
+        // Set the maximum lag in miliseconds
+        toobusy.maxLag(config.server.maxLag);
+        // middleware which blocks requests when we're too busy
+        app.use(function(req, res, next) {
+            // Only Too Busy if toobusy is enabled.
+            if (toobusy() && config.server.toobusy) {
+                //console.log("Toobusy!");
+                res.send(503, "I'm busy right now, sorry. "+toobusy.lag() );
+            } else {
+                next();
+            } 
+        });
+    
         // Count requests
         var countRequests = function(req, res, next) {
             // Increment 
@@ -270,12 +285,21 @@ if (config.server.multiCore && cluster.isMaster) {
     }
     setInterval(usersPerSecond, 1000);
 
+    // Current Lag, per second
+    function lagPerSecond() {
+        // Push to Socket.io users who are listening
+        io.sockets.in("admin").emit("currentLagPerSecond",  toobusy.lag() );
+    }
+    setInterval(lagPerSecond, 1000);
+    
+
     // Graceful shutdown
     var shutdown = function() {
         console.log("Closing "+pjson.name+"...");
         // Tell all Sockets that server is shutting down.
         io.sockets.emit('signal', {'message':'shutdown'});
         server.close(); // Close Express
+        toobusy.shutdown(); // Shutdown toobusy
         console.log(); // New line
         process.exit(0); // Kill this app process.   
     };

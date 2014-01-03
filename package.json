@@ -49,8 +49,9 @@
     ,"commander": "2.1.0"
     ,"beautiful-docs": ""
     ,"nodeunit": "0.8.2"
-    ,"node-icalendar": "https://github.com/Glavin001/node-icalendar/tarball/master"
+    ,"icalendar": "0.6.3"
 	,"twilio": "1.5.0"
+    ,"toobusy": "0.2.4"
   },
   "engines": {
     "node": ">=0.10.24",
