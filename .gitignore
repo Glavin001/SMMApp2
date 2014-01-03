@@ -28,6 +28,9 @@ app/public/css/*.css
 # Redis Dump files
 dump.rdb
 
+# Logs
+logs/*
+
 # Beautiful Docs
 docs/out/
 

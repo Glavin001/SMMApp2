@@ -52,6 +52,7 @@
     ,"icalendar": "0.6.3"
 	,"twilio": "1.5.0"
     ,"toobusy": "0.2.4"
+    ,"forever-monitor": "1.2.3"
   },
   "engines": {
     "node": ">=0.10.24",
