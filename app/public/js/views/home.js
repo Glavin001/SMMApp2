@@ -7,9 +7,11 @@ $(document).ready(function () {
     //Determine Online Connection, emit status
     if (navigator.online) {
         var io = require("socket.io/socket.io.js").connect("http://localhost:8080");
-        io.emit("online", navigator.online);
+        io.emit("online", navigator.online); 
+        console.log(navigator.online);
     } else {
-        //how to emit offline status or turn app online?
+        //what to do here
+        console.log(navigator.online);
     }
 
 

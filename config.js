@@ -33,7 +33,7 @@ Redis
 For more options see: https://github.com/mranney/node_redis#rediscreateclientport-host-options 
 */
 config.redis = {
-    enabled: true,
+    enabled: false,
     port: 6379,
     host: "127.0.0.1",
     options: { }
