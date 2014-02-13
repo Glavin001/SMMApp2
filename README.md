@@ -1,6 +1,8 @@
 SMMApp2
 =======
 
+[![Build Status](https://magnum.travis-ci.com/Glavin001/SMMApp2.png?token=sBRh3JkKuJ1pZKWysrwe&branch=glavin)](https://magnum.travis-ci.com/Glavin001/SMMApp2)
+
 Saint Mary's Mobile App, Version 2.0
 
 ## Screenshots
