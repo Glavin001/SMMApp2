@@ -1,16 +1,15 @@
 var XHR = XMLHttpRequest();
 var FD = FormData();
 
-module.exports = function (argument) {
-	for (name in argument) {
-		FD.append(name,data[name]);
-	}
+module.exports = function (fname,lname) {
+	FD.append('txtFirstName',fname);
+	FD.append('txtLastName',lname);
 
-	XHR.addEventListner('load', function (e) {
+	XHR.addEventListener('load', function (e) {
 		console.log("Sent XHR request successfully");
 	});
-	XHR.addEventListner('error', function (e) {
-		console.log("Sent XHR request unsuccessfully");
+	XHR.addEventListener('error', function (e) {
+		console.log("Sent XHR request, got error");
 	});
 
 	XHR.open('POST', "http://smuphone.smu.ca/sscript/search.asp");
