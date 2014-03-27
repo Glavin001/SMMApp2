@@ -68,7 +68,8 @@
   "devDependencies": {
   },
   "scripts": {
-    "test": "./bin/benchmark.sh",
+    "test": "echo 0",
+    "benchmark": "./bin/benchmark.sh",
     "prestart":"echo \"IMPORTANT: MongoDB and Redis-Server must be running.\"",
     "start": "node app.js --production --multi-core",
     "preinstall": "echo \"IMPORTANT: MongoDB and Redis-Server must be installed.\"",
@@ -79,6 +80,5 @@
   "keywords": [
     "mobile",
     "app"
-  ],
-  "license": "BSD"
+  ]
 }
