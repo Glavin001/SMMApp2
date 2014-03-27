@@ -33,7 +33,7 @@ Redis
 For more options see: https://github.com/mranney/node_redis#rediscreateclientport-host-options 
 */
 config.redis = {
-    enabled: true,
+    enabled: false,
     port: 6379,
     host: "127.0.0.1",
     options: { }
@@ -45,12 +45,12 @@ config.mongodb = {
     host: 'localhost',
     database: 'smmapp'
 };
-// Twilio
+// Twilio Daniel Creds
 config.twilio = {
     enabled: false,
-    sid: undefined,
-    token: undefined,
-    number: undefined
+    sid: 'AC104bcce704100b74413eafc03b865228',
+    token: '8d89ba380638ead1a8c2d3def6e5974a',
+    number: "+17784022082"
 };
 // E-Mail
 config.email = {
