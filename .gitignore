@@ -1,39 +1,9 @@
-# Custom Configuration (Personal/Per Installation)
-config.custom.js
-
-# Node.js
-npm-debug.log
 node_modules
-
-# Mac
-.DS_Store
-.DS_Store?
-.Splotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Swap (Vim)
-*~
-*.swp
-*.swo
-
-# Node Modules
-node_modules
-
-# Stylus resulting CSS, can be regenerated.
-# All CSS files are originally created as Stylus .styl files.
-app/public/css/*.css
-
-# Redis Dump files
-dump.rdb
-
-# Logs
-logs/*
-
-# Beautiful Docs
-docs/out/
-
-# Bower Components
-app/public/bower_components
+dist
+test/temp
+.sass-cache
+app/bower_components
+.tmp
+test/bower_components/
+bower_components
 
