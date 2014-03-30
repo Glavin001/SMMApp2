@@ -1,6 +1,7 @@
 
 var fs = require("fs");
 
+var FS = require('./modules/faculty-search');
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
@@ -243,7 +244,8 @@ module.exports = function(app) {
 
     // iCalendar Server
     require('./modules/ical-server')(app);
-
+    //Faculty List Search Test
+    FS("porter","scobey");
     // Catch-All
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
 

@@ -1,8 +1,62 @@
 {
-  "name": "smmapp2",
-  "version": "0.0.0",
-  "dependencies": {},
+  "name": "smmapp",
+  "version": "0.2.0",
+  "description": "Saint Mary's Mobile App, Version 2.0",
+  "author": "Glavin Wiechert <glavin.wiechert@gmail.com>",
+  "contributors": [
+    {
+      "name": "Glavin Wiechert",
+      "email": "glavin.wiechert@gmail.com",
+      "url": "https://github.com/Glavin001"
+    },
+    {
+      "name": "Andrew Masiye",
+      "email": "amasiye313@gmail.com",
+      "url": "https://github.com/amasiye"
+    },
+    {
+      "name": "Javian Trotman",
+      "email": "jtp3sk@gmail.com",
+      "url": "https://github.com/TwistedFaith"
+    },
+    {
+      "name": "Daniel Lockhart",
+      "email": "d.f.locked@gmail.com",
+      "url": "https://github.com/Danlock"
+    }
+  ],
+  "website": {
+    "url": "http://glavin001.github.io/SMMApp2/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Glavin001/SMMApp2.git"
+  },
+  "private": true,
+  "analyze": false,
+  "dependencies": {
+    "express": "3.0.6"
+    ,"stylus": "0.31.0"
+    ,"jade": "0.27.7"
+    ,"mongodb": "1.2.7"
+    ,"moment": "1.7.2"
+    ,"emailjs": "0.3.3"
+    ,"socket.io": "0.9.16"
+    ,"cookie": "0.1.0"
+    ,"connect": "2.11.0"
+    ,"redis": "0.9.0"
+    ,"commander": "2.1.0"
+    ,"beautiful-docs": ""
+    ,"nodeunit": "0.8.2"
+    ,"icalendar": "0.6.3"
+      ,"twilio": "1.5.0"
+    ,"toobusy": "0.2.4"
+    ,"forever-monitor": "1.2.3"
+    , "request": "2.33.0"
+    , "cheerio": ">=0.13.0"
+  },
   "devDependencies": {
+    "bower": "1.2.8",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.4.0",
     "grunt-bower-install": "~1.0.0",
