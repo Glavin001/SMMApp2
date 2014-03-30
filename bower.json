@@ -1,36 +1,19 @@
 {
-  "name": "SMMApp",
-  "version": "2.0.0",
-  "homepage": "https://github.com/Glavin001/SMMApp2",
-  "authors": [
-    "Glavin Wiechert <Glavin.Wiechert@gmail.com>",
-    "Andrew Masiye <amasiye313@gmail.com>",
-    "Javian Trotman <jtp3sk@gmail.com>",
-    "Daniel Lockhart <d.f.locked@gmail.com>"
-  ],
-  "description": "Saint Mary's Mobile App, Version 2.0",
-  "main": "app.js",
-  "keywords": [
-    "smu"
-  ],
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
+  "name": "smmapp2",
+  "version": "0.0.0",
   "dependencies": {
-    "jquery": "1.10.2"
-    ,"leaflet": "0.7.1"
-    ,"bootstrap": "3.0.3"
-    ,"codemirror": "3.20.0"
-    ,"Leaflet.awesome-markers": "2.0.1"
-    ,"Font-Awesome": "4.0.3"
-    ,"ionicons": "1.4.0"
-    ,"impress.js": "0.5.3"
-    ,"jquery.formance": "https://github.com/omarshammas/jquery.formance.git"
-    ,"fullcalendar": "1.6.4"
+    "angular": "1.2.15",
+    "json3": "~3.2.6",
+    "es5-shim": "~2.1.0",
+    "jquery": "~1.11.0",
+    "bootstrap-sass-official": "~3.1.0",
+    "angular-resource": "1.2.15",
+    "angular-cookies": "1.2.15",
+    "angular-sanitize": "1.2.15",
+    "angular-route": "1.2.15"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.15",
+    "angular-scenario": "1.2.15"
   }
 }
