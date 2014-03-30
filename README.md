@@ -1,11 +1,29 @@
-SMMApp
+SMMApp [![Build Status](https://magnum.travis-ci.com/Glavin001/SMMApp2.png?token=sBRh3JkKuJ1pZKWysrwe&branch=glavin)](https://magnum.travis-ci.com/Glavin001/SMMApp2)
 =======
 
-[![Build Status](https://magnum.travis-ci.com/Glavin001/SMMApp2.png?token=sBRh3JkKuJ1pZKWysrwe&branch=glavin)](https://magnum.travis-ci.com/Glavin001/SMMApp2)
-
-Saint Mary's Mobile App
+> Saint Mary's Mobile App
 
 ## Installation
+
+### Global Dependencies
+
+#### Node.js and NPM
+
+See http://nodejs.org/
+
+##### Bower
+
+See http://bower.io/
+
+##### Grunt
+
+See http://gruntjs.com/
+
+#### Ruby & Compass
+
+See http://compass-style.org/install/
+
+#### Dependencies
 
 ```bash
 npm install
@@ -22,7 +40,9 @@ grunt serve
 
 ### Run the server
 
-*TO BE DETERMINED.*
+```bash
+node server/
+```
 
 ## Screenshots
 See [/screenshots/README.md](/screenshots/).

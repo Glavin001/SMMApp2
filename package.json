@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Saint Mary's Mobile App, Version 2.0",
   "author": "Glavin Wiechert <glavin.wiechert@gmail.com>",
+  "main": "server/",
   "contributors": [
     {
       "name": "Glavin Wiechert",
@@ -53,7 +54,8 @@
     "toobusy": "0.2.4",
     "forever-monitor": "1.2.3",
     "request": "2.33.0",
-    "cheerio": ">=0.13.0"
+    "cheerio": ">=0.13.0",
+    "feathers": "^0.3.2"
   },
   "devDependencies": {
     "bower": "1.2.8",
