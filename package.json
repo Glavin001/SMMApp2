@@ -55,7 +55,10 @@
     "forever-monitor": "1.2.3",
     "request": "2.33.0",
     "cheerio": ">=0.13.0",
-    "feathers": "^0.3.2"
+    "feathers": "^0.3.2",
+    "sequelize": "^1.7.0",
+    "feathers-orm-service": "^0.2.0",
+    "nconf": "^0.6.9"
   },
   "devDependencies": {
     "bower": "1.2.8",
