@@ -6,7 +6,8 @@ var facultySearch = require("../modules/faculty-search");
 //fname == first name , lname == last name
 module.exports = {
     find: function (params, callback) {
-        facultySearch(params.fname, params.lname, function(err, data) {
+        facultySearch(params.query.fname, params.query.lname, function(err, data) {
+            //console.log(err, data);
             return callback(err, data);
         });
     }
