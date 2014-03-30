@@ -3,28 +3,31 @@ var nconf = require('nconf');
 var feathers = require('feathers');
 var Sequelize = require('sequelize');
 
-// Database Connection
-var database = "smu";
-var username = "root";
-var password = null; // Blank
+// Configuration
+//
+// Setup nconf to use (in-order):
+//   1. Command-line arguments
+//   2. Environment variables
+//   3. A file located at 'path/to/config.json'
+//
+nconf.argv()
+   .env()
+   .file({ file: __dirname+'/default.config.json' });
 
-var sequelize = new Sequelize(database, username, password, {
-    dialect: "mysql",
-    port: 3306
+var sequelize = new Sequelize(nconf.get('database:name'), nconf.get('database:username'), nconf.get('database:password'), {
+    dialect: nconf.get('database:dialect'),
+    port: nconf.get('database:port')
 })
 
 // Services
-var facultySearchService = require('./services/facultySearch');
-var coursesService = require('./services/course_service')(sequelize);
-
-// Config
-var port = 8080;
+var facultySearchService = require('./services/faculty_search');
+var coursesService = require('./services/course')(sequelize);
 
 // Start server
 feathers()
     .configure(feathers.socketio())
     .use('/api/v1/faculty', facultySearchService)
     .use('/api/v1/courses', coursesService)
-    .listen(port, function() {
-        console.log('Listening on port '+port+'.');
+    .listen(nconf.get('server:port'), function() {
+        console.log('Listening on port '+nconf.get('server:port')+'.');
     });

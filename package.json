@@ -58,7 +58,8 @@
     "feathers": "^0.3.2",
     "sequelize": "^1.7.0",
     "feathers-orm-service": "^0.2.0",
-    "nconf": "^0.6.9"
+    "nconf": "^0.6.9",
+    "mysql": "^2.1.1"
   },
   "devDependencies": {
     "bower": "1.2.8",
