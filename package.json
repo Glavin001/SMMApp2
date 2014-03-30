@@ -49,7 +49,7 @@
     ,"beautiful-docs": ""
     ,"nodeunit": "0.8.2"
     ,"icalendar": "0.6.3"
-      ,"twilio": "1.5.0"
+    ,"twilio": "1.5.0"
     ,"toobusy": "0.2.4"
     ,"forever-monitor": "1.2.3"
     , "request": "2.33.0"
