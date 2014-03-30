@@ -1,7 +1,6 @@
-var XHR = XMLHttpRequest();
-var FD = FormData();
-
 module.exports = function (fname,lname) {
+	var XHR = new XMLHttpRequest();
+	var FD = FormData();
 	FD.append('txtFirstName',fname);
 	FD.append('txtLastName',lname);
 	FD.append('cmdSubmit','Submit');
