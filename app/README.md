@@ -1,7 +1,3 @@
-# [App](/app) directory
+# App
 
-## [public](public)
-Files within this directory are publicly accessible.
-
-## [server](server)
-Files within this directory are used by the `router.js` server app as `views`.
+This directory is for the SMU Mobile App front-end public web app code.
