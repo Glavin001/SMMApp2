@@ -1,6 +1,5 @@
 //
 var facultySearch = require("../modules/faculty-search");
-
 // Service
 
 var tagsToReplace = {
@@ -21,67 +20,12 @@ function TodoStore() {
   this.lastId = 0;
 }
 
-// Returns a Todo by it's id
-TodoStore.prototype.getById = function (id) {
-  var currentTodo;
-  for (var i = 0; i < this.todos.length; i++) {
-    currentTodo = this.todos[i];
-    if (currentTodo.id == id) {
-      return currentTodo;
-    }
-  }
+var FS;
 
-  return null;
-}
-
+//fname == first name , lname == last name
 TodoStore.prototype.find = function (params, callback) {
-  callback(null, this.todos);
-}
-
-TodoStore.prototype.get = function (id, params, callback) {
-  var todo = this.getById(id);
-  if (todo === null) {
-    return callback(new Error('Todo not found'));
-  }
-
-  callback(null, todo);
-}
-
-TodoStore.prototype.create = function (data, params, callback) {
-  // Create our actual Todo object so that we only get what we really want
-  var newTodo = {
-    id: this.lastId++,
-    description: escapeHtml(data.description),
-    done: !!data.done
-  };
-
-  this.todos.push(newTodo);
-
-  callback(null, newTodo);
-}
-
-TodoStore.prototype.update = function (id, data, params, callback) {
-  var todo = this.getById(id);
-  if (todo === null) {
-    return callback(new Error('Todo does not exist'));
-  }
-
-  // We only want to update the `done` property
-  // !! is used for sanitization turning everything into a real booelan
-  todo.done = !!data.done;
-
-  callback(null, todo);
-}
-
-TodoStore.prototype.remove = function (id, params, callback) {
-  var todo = this.getById(id);
-  if (todo === null) {
-    return callback(new Error('Can not delete Todo'));
-  }
-
-  // Just splice our todo out of the array
-  this.todos.splice(this.todos.indexOf(todo), 1);
-  callback(null, todo);
+  FS = facultySearch(params.fname,params.lname);
+  callback(FS);
 }
 
 module.exports = TodoStore;
