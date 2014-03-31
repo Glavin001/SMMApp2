@@ -97,7 +97,8 @@
     "karma-chrome-launcher": "~0.1.2",
     "karma-phantomjs-launcher": "^0.1.2",
     "commander": "^2.1.0",
-    "csv": "^0.3.7"
+    "csv": "^0.3.7",
+    "Faker": "^0.7.0"
   },
   "engines": {
     "node": ">=0.10.0",

@@ -50,6 +50,14 @@ node server/
 node utils/load_courses.js -i data/courses.csv
 ```
 
+### Create Sandbox
+
+Creating a sandbox (fake data) with 10 users.
+
+```bash
+node ./utils/sandbox.js --users 10
+```
+
 ## Screenshots
 See [/screenshots/README.md](/screenshots/).
 

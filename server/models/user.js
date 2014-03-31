@@ -9,7 +9,9 @@ module.exports = function(sequelize, DataTypes) {
         id: {
           type: DataTypes.STRING(9),
           allowNull: false,
-          primaryKey: true
+          primaryKey: true,
+          unique: true,
+          comment: "A-Number / student number."
         },
         pin: {
             type: DataTypes.STRING(256),
@@ -85,7 +87,9 @@ module.exports = function(sequelize, DataTypes) {
         }
     }, {
         // Options
-        tableName: "users"
+        tableName: "users",
+        timestamps: false,
+        underscored: true
     });
 
 };
