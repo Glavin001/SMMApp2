@@ -44,6 +44,12 @@ grunt serve
 node server/
 ```
 
+### Load Courses from file
+
+```bash
+node utils/load_courses.js -i data/courses.csv
+```
+
 ## Screenshots
 See [/screenshots/README.md](/screenshots/).
 

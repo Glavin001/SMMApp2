@@ -59,7 +59,9 @@
     "sequelize": "^1.7.0",
     "feathers-orm-service": "^0.2.0",
     "nconf": "^0.6.9",
-    "mysql": "^2.1.1"
+    "mysql": "^2.1.1",
+    "async": "^0.6.1",
+    "lodash": "^2.4.1"
   },
   "devDependencies": {
     "bower": "1.2.8",
@@ -93,7 +95,9 @@
     "karma-ng-html2js-preprocessor": "^0.1.0",
     "karma-jasmine": "~0.2.2",
     "karma-chrome-launcher": "~0.1.2",
-    "karma-phantomjs-launcher": "^0.1.2"
+    "karma-phantomjs-launcher": "^0.1.2",
+    "commander": "^2.1.0",
+    "csv": "^0.3.7"
   },
   "engines": {
     "node": ">=0.10.0",

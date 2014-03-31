@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         Seq_numb: {
             type: DataTypes.STRING(3),
-            comment: ""
+            comment: "Course Section."
         },
         Crse_title: {
             type: DataTypes.STRING(30),
@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         Levl_code: {
             type: DataTypes.STRING(2),
-            comment: ""
+            comment: "Level code of course (undergrad (UG), graduate (GR), etc)."
         },
         Text_narrative: {
             type: DataTypes.STRING(30),
@@ -61,10 +61,42 @@ module.exports = function(sequelize, DataTypes) {
         End_time: {
             type: DataTypes.STRING(4),
             comment: ""
+        },
+        // Days
+        Sun_day: {
+            type: DataTypes.STRING(1),
+            comment: ""
+        },
+        Mon_day: {
+            type: DataTypes.STRING(1),
+            comment: ""
+        },
+        Tue_day: {
+            type: DataTypes.STRING(1),
+            comment: ""
+        },
+        Wed_day: {
+            type: DataTypes.STRING(1),
+            comment: ""
+        },
+        Thu_day: {
+            type: DataTypes.STRING(1),
+            comment: ""
+        },
+        Fri_day: {
+            type: DataTypes.STRING(1),
+            comment: ""
+        },
+        Sat_day: {
+            type: DataTypes.STRING(1),
+            comment: ""
         }
+
     }, {
         // Options
-        tableName: "courses"
+        tableName: "courses",
+        timestamps: false,
+        underscored: true
     });
 
 };

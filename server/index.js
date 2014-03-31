@@ -14,6 +14,12 @@ nconf.argv()
    .env()
    .file({ file: __dirname+'/default.config.json' });
 
+if (nconf.get('help')) {
+    console.log("HELP");
+    process.exit();
+    return;
+}
+
 var sequelize = new Sequelize(nconf.get('database:name'), nconf.get('database:username'), nconf.get('database:password'), {
     dialect: nconf.get('database:dialect'),
     port: nconf.get('database:port')
