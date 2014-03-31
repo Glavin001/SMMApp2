@@ -1,8 +1,9 @@
 {
   "name": "smmapp",
-  "version": "2.0.0",
+  "version": "0.2.0",
   "description": "Saint Mary's Mobile App, Version 2.0",
   "author": "Glavin Wiechert <glavin.wiechert@gmail.com>",
+  "main": "server/",
   "contributors": [
     {
       "name": "Glavin Wiechert",
@@ -35,48 +36,75 @@
   "private": true,
   "analyze": false,
   "dependencies": {
-    "bower": "1.2.8"
-    ,"express": "3.0.6"
-    ,"stylus": "0.31.0"
-    ,"jade": "0.27.7"
-    ,"mongodb": "1.2.7"
-    ,"moment": "1.7.2"
-    ,"emailjs": "0.3.3"
-    ,"socket.io": "0.9.16"
-    ,"cookie": "0.1.0"
-    ,"connect": "2.11.0"
-    ,"redis": "0.9.0"
-    ,"commander": "2.1.0"
-    ,"beautiful-docs": ""
-    ,"nodeunit": "0.8.2"
-    ,"node-icalendar": "https://github.com/Glavin001/node-icalendar/tarball/master"
-	,"twilio": "1.5.0"
+    "express": "3.0.6",
+    "stylus": "0.31.0",
+    "jade": "0.27.7",
+    "mongodb": "1.2.7",
+    "moment": "1.7.2",
+    "emailjs": "0.3.3",
+    "socket.io": "0.9.16",
+    "cookie": "0.1.0",
+    "connect": "2.11.0",
+    "redis": "0.9.0",
+    "commander": "2.1.0",
+    "beautiful-docs": "",
+    "nodeunit": "0.8.2",
+    "icalendar": "0.6.3",
+    "twilio": "1.5.0",
+    "toobusy": "0.2.4",
+    "forever-monitor": "1.2.3",
+    "request": "2.33.0",
+    "cheerio": ">=0.13.0",
+    "feathers": "^0.3.2",
+    "sequelize": "^1.7.0",
+    "feathers-orm-service": "^0.2.0",
+    "nconf": "^0.6.9",
+    "mysql": "^2.1.1",
+    "async": "^0.6.1",
+    "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "bower": "1.2.8",
+    "grunt": "~0.4.1",
+    "grunt-autoprefixer": "~0.4.0",
+    "grunt-bower-install": "~1.0.0",
+    "grunt-concurrent": "~0.5.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-compass": "~0.7.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-contrib-htmlmin": "~0.1.3",
+    "grunt-contrib-imagemin": "~0.3.0",
+    "grunt-contrib-jshint": "~0.7.1",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-watch": "~0.5.2",
+    "grunt-google-cdn": "~0.2.0",
+    "grunt-newer": "~0.6.1",
+    "grunt-ngmin": "~0.0.2",
+    "grunt-rev": "~0.1.0",
+    "grunt-svgmin": "~0.2.0",
+    "grunt-usemin": "~2.0.0",
+    "jshint-stylish": "~0.1.3",
+    "load-grunt-tasks": "~0.4.0",
+    "time-grunt": "~0.2.1",
+    "karma-ng-scenario": "^0.1.0",
+    "grunt-karma": "^0.8.2",
+    "karma": "^0.12.1",
+    "karma-ng-html2js-preprocessor": "^0.1.0",
+    "karma-jasmine": "~0.2.2",
+    "karma-chrome-launcher": "~0.1.2",
+    "karma-phantomjs-launcher": "^0.1.2",
+    "commander": "^2.1.0",
+    "csv": "^0.3.7",
+    "Faker": "^0.7.0"
   },
   "engines": {
-    "node": ">=0.10.24",
-    "npm": ">=1.3.21"
-  },
-  "config": {
-  },
-  "bugs": {
-    "url": "https://github.com/Glavin001/SMMApp2/issues",
-    "email": "glavin.wiechert@gmail.com"
-  },
-  "main": "app.js",
-  "devDependencies": {
+    "node": ">=0.10.0",
+    "npm": ">=1.4.x"
   },
   "scripts": {
-    "test": "./bin/benchmark.sh",
-    "prestart":"echo \"IMPORTANT: MongoDB and Redis-Server must be running.\"",
-    "start": "node app.js --production --multi-core",
-    "preinstall": "echo \"IMPORTANT: MongoDB and Redis-Server must be installed.\"",
-    "postinstall": "./node_modules/bower/bin/bower install",
-    "predeploy": "echo This will be run before deploying the app",
-    "postdeploy": "echo This will be run after deploying the app"
-  },
-  "keywords": [
-    "mobile",
-    "app"
-  ],
-  "license": "BSD"
+    "test": "grunt test"
+  }
 }
