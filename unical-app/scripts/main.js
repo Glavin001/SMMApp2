@@ -8,6 +8,7 @@ $(document).ready(function() {
     var $selectedCoursesOutput = $('#selected-courses-output');
     var $subjectCode = $('#subject-code');
     var $courseNumb = $('#course-numb');
+    var $submitBtn = $('.submit-btn');
 
     // Templates
     var coursesSource   = $("#courses-template").html();
@@ -116,6 +117,18 @@ $(document).ready(function() {
                 displayCourses(courses);
             })
         };
+
+        var submitCourses = function(callback) {
+            $.post("/api/calendar", {"courses": JSON.stringify(selectedCourses) }).done(function(data) {
+                return callback && callback(data);
+            });
+        };
+
+        $submitBtn.click(function() {
+            submitCourses(function(result) {
+                console.log(result);
+            });
+        });
 
         $searchCoursesBtn.click(searchCourses);
 

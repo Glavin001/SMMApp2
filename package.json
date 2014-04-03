@@ -37,7 +37,7 @@
   "analyze": false,
   "dependencies": {
     "icalendar": "0.6.3",
-    "request": "2.33.0",
+    "request": "^2.33.0",
     "cheerio": ">=0.13.0",
     "feathers": "^0.3.2",
     "sequelize": "^1.7.0",

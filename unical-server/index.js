@@ -1,10 +1,11 @@
 // Dependencies
 var express = require('express');
 var MongoClient = require('mongodb').MongoClient;
-var icalendar = require('icalendar');
 var crypto = require('crypto');
 var nconf = require('nconf');
 var path = require('path');
+var icalendar = require('icalendar');
+
 //
 var app = express();
 
@@ -45,41 +46,50 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
       })
     });
 
-
-    app.post('/api/updateUser', function(req, res) {
-        //console.log('/api/updateUser', req.body);
-        var username = req.body.username;
-        var password = req.body.password;
-
-        getCourses(username, password, function(courses) {
-            //console.log("Retrieved Courses");
-            //console.log(courses);
-
-            if (courses.length > 0) {
-
-                // Create secure CalendarId
-                var temp = (username + nconf.get('secret'));
-                var digest = "hex"
-                var calendarId = crypto.createHash('md5').update(temp).digest(digest);
-                console.log(calendarId);
-                saveCoursesForUser(calendarId, courses, collection, function(err, docs) {
-                    console.log('Saved Courses');
-
-                    var url = "/calendar/"+calendarId+"/calendar.ics";
-                    res.json({
-                        'url': url,
-                        'courses': courses
-                    }, 201);
-
-                });
-
-            } else {
-                res.json({
-                    'error': "No courses were found."
-                }, 204);
-            }
-
+    var saveCalendar = function(calendarId, courses, collection, callback) {
+        var data = {
+            calendarId: calendarId,
+            courses: courses
+        };
+        collection.update({ 'calendarId': calendarId }, data, {upsert: true}, function(err, docs) {
+            //console.log(err, docs);
+            callback(err, docs);
         });
+    };
+
+    // Create Calendar
+    app.post('/api/calendar', function(req, res) {
+        console.log(req.body);
+        
+        var courses = JSON.parse(req.body.courses);
+
+
+        if (courses.length > 0) {
+
+            // Create secure CalendarId
+            var timestamp = (+(new Date()))+"";
+            var temp = (timestamp + nconf.get('secret'));
+            console.log(temp);
+            var digest = "hex"
+            var calendarId = crypto.createHash('md5').update(temp).digest(digest);
+            console.log(calendarId);
+
+            saveCalendar(calendarId, courses, collection, function(err, docs) {
+                console.log('Saved Courses');
+
+                var url = "/calendar/"+calendarId+"/calendar.ics";
+                res.json({
+                    'url': url,
+                    'courses': courses
+                }, 201);
+
+            });
+
+        } else {
+            res.json({
+                'error': "No courses were found."
+            }, 204);
+        }
 
     });
 
@@ -91,6 +101,80 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
         });
 
     });
+
+    var timeFromStr = function(str) {
+        // Ex: "4:00 pm"
+        console.log('timeFromStr: ', str);
+        var n = parseInt(str);
+        var hours = parseInt(n/100);
+        var minutes = n - hours*100;
+        return {
+            "hours": hours,
+            "minutes": minutes
+        };
+    };
+
+    var jsonToEvent = function(json) {
+        console.log('jsonToEvent: ', json);
+        var vevent = new icalendar.VEvent("event-"+json.crn);
+        var summary = json.Subj_code + " " + json.Crse_numb + " - " + json.Crse_title;
+        vevent.setSummary(summary);
+
+        var location = json.Bldg_code + " " + json.Room_code;
+        vevent.setDescription(location);
+        // Calculate date and event length
+        var startDate = new Date(json.Start_date);
+        var startTime = timeFromStr(json.Begin_time);
+        startDate.setHours(startTime.hours, startTime.minutes);
+
+        var endTime = timeFromStr(json.End_time);
+        var endDate = new Date(json.Start_date);
+        endDate.setHours(endTime.hours, endTime.minutes);
+        // console.log(startDate, endDate);
+        vevent.setDate(startDate, endDate);
+
+        var days = [];
+        if (json.Mon_day) {
+            days.push("MO");
+        }
+        if (json.Tue_day) {
+            days.push("TU");
+        }
+        if (json.Wed_day) {
+            days.push("WE");
+        }
+        if (json.Thu_day) {
+            days.push("TH");
+        }
+        if (json.Fri_day) {
+            days.push("FR");
+        }
+        if (json.Sat_day) {
+            days.push("SA");
+        }
+        if (json.Sun_day) {
+            days.push("SU");
+        }
+        console.log(days);
+        vevent.addProperty('RRULE', { FREQ: 'WEEKLY', BYDAY: days.join(',') });
+        return vevent;
+    };
+
+    var coursesToCalendar = function(courses, callback) {
+        console.log(courses);
+        // Generate iCalendar file
+        var calendar = new icalendar.iCalendar();
+        // Replace PRODID
+        calendar.properties.PRODID = [];
+        calendar.addProperty('PRODID',"-//Saint Mary's University//Calendar//EN");
+        // Add events to calendar
+        for (var i=0, len=courses.length; i<len; i++)
+        {
+            var vevent = jsonToEvent(courses[i]);
+            calendar.addComponent(vevent);
+        }
+        return callback(calendar);
+    };
 
     // Calendar
     app.get('/calendar/:calendarId/calendar.ics', function(req, res) {
