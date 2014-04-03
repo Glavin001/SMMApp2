@@ -1,7 +1,9 @@
-SMMApp [![Build Status](https://magnum.travis-ci.com/Glavin001/SMMApp2.png?token=sBRh3JkKuJ1pZKWysrwe&branch=glavin)](https://magnum.travis-ci.com/Glavin001/SMMApp2)
+UniAPI and UniCal [![Build Status](https://magnum.travis-ci.com/Glavin001/SMMApp2.png?token=sBRh3JkKuJ1pZKWysrwe&branch=glavin)](https://magnum.travis-ci.com/Glavin001/SMMApp2)
 =======
 
 > Saint Mary's Mobile App
+
+![](screenshots/uni-cal.png)
 
 ## Installation
 
@@ -15,14 +17,6 @@ See http://nodejs.org/
 
 See http://bower.io/
 
-##### Grunt
-
-See http://gruntjs.com/
-
-#### Ruby & Compass
-
-See http://compass-style.org/install/
-
 #### Dependencies
 
 ```bash
@@ -32,16 +26,16 @@ bower install
 
 ## Usage
 
-### Run the front-end web app
+### Run UniAPI Server
 
 ```bash
-grunt serve
+node api-server/
 ```
 
-### Run the server
+### Run UniCal Server
 
 ```bash
-node server/
+node unical-server/
 ```
 
 ### Load Courses from file
