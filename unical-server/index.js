@@ -5,6 +5,8 @@ var crypto = require('crypto');
 var nconf = require('nconf');
 var path = require('path');
 var icalendar = require('icalendar');
+var request = require('request');
+var async = require('async');
 
 //
 var app = express();
@@ -13,9 +15,8 @@ var app = express();
 nconf
     .argv()
     .env()
-    .file(__dirname+'/default.config.json')
-    .file('custom', 'config.json');
-
+    .file('custom', __dirname+'/config.json')
+    .file(__dirname+'/default.config.json');
 
 // Optionally serve the public front-end app
 if (nconf.get('server:publicDir')) {
@@ -104,7 +105,7 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
 
     var timeFromStr = function(str) {
         // Ex: "4:00 pm"
-        console.log('timeFromStr: ', str);
+        //console.log('timeFromStr: ', str);
         var n = parseInt(str);
         var hours = parseInt(n/100);
         var minutes = n - hours*100;
@@ -115,7 +116,7 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
     };
 
     var jsonToEvent = function(json) {
-        console.log('jsonToEvent: ', json);
+        //console.log('jsonToEvent: ', json);
         var vevent = new icalendar.VEvent("event-"+json.crn);
         var summary = json.Subj_code + " " + json.Crse_numb + " - " + json.Crse_title;
         vevent.setSummary(summary);
@@ -156,7 +157,7 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
             days.push("SU");
         }
         console.log(days);
-        vevent.addProperty('RRULE', { FREQ: 'WEEKLY', BYDAY: days.join(',') });
+        vevent.addProperty('RRULE', { FREQ: 'WEEKLY', BYDAY: days.join(','), UNTIL: new Date(json.End_date) });
         return vevent;
     };
 
@@ -176,6 +177,28 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
         return callback(calendar);
     };
 
+    var reloadCourses = function(courses, callback) {
+
+        async.map(courses, function(course, cb) {
+            var baseurl = nconf.get('uniapi:protocol')+"://"+nconf.get('uniapi:hostname')+":"+nconf.get('uniapi:port');
+            var url = baseurl + "/api/v1/courses/"+course.id;
+            request(url, function(error, response, body) {
+                console.log(error, body);
+                try {
+                    if (!error && !!body) {
+                        var temp = JSON.parse(body);
+                        course = temp;
+                    }
+                } catch (e) {
+                    // 
+                }
+                return cb(null, course);
+            });
+        }, function(err, results) {
+            return callback && callback(results);
+        });
+    };
+
     // Calendar
     app.get('/calendar/:calendarId/calendar.ics', function(req, res) {
         console.log('Calendar', req.params);
@@ -188,11 +211,13 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
             var courses = result.courses;
 
             try {
-                coursesToCalendar(courses, function(calendar) {
-                    res.header("Content-Type", "text/calendar; charset=utf-8");
-                    res.header("Content-Disposition", "inline; filename=calendar.ics");
-                    res.end(calendar.toString());
-                });
+                reloadCourses(courses, function(courses) {
+                    coursesToCalendar(courses, function(calendar) {
+                        res.header("Content-Type", "text/calendar; charset=utf-8");
+                        res.header("Content-Disposition", "inline; filename=calendar.ics");
+                        res.end(calendar.toString());
+                    });
+                })
             } catch (e) {
                 res.json({"error": e.message });
             }

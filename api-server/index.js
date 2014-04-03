@@ -13,8 +13,8 @@ var cors = require('cors');
 //
 nconf.argv()
    .env()
+   .file('custom', __dirname+'/config.json')
    .file({ file: __dirname+'/default.config.json' })
-   .file('custom', 'config.json');
 
 if (nconf.get('help')) {
     console.log("HELP");
