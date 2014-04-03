@@ -83,7 +83,7 @@ $(document).ready(function() {
     // Init
     displayCourses([]);
     displaySelectedCourses([]);
-
+    
     // Main
     getUniApi(function(uniApi) {
 
@@ -141,7 +141,11 @@ $(document).ready(function() {
             });
         });
 
+        // Add click handler
         $searchCoursesBtn.click(searchCourses);
+        // Trigger virtual click
+        $searchCoursesBtn.click();
+        
 
     });
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SMU iCal-Sync App</title>
+    <title>UniCal</title>
 
     <!-- Bootstrap -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,15 +21,21 @@
   <body>
 
     <div class="container">
-      <h1>Welcome to the UniCal Mobile App</h1>
+      <h1>Welcome to the UniCal</h1>
 
       <h2>Step 1: Search for your course(s)</h2>
 
-      <div class="">
-        <input id="subject-code" type="text" placeholder="Enter Subject" value="CSCI"/>
-        <input id="course-numb" type="number" placeholder="Enter Course number" value="4477" />
-        <button class="btn btn-primary search-courses-btn">Search for Courses</button>
-      </div>
+        <div role="form">
+            <div class="form-group">
+                <label for="subject-code">Subject</label>
+        <input id="subject-code" type="text" class="form-control" name="subject-code" placeholder="Enter Subject" value="CSCI"/>
+            </div>
+            <div class="form-group">
+                <label for="course-numb">Course Number</label>
+                <input id="course-numb" type="number" name="course-numb" class="form-control" placeholder="Enter Course number" value="4477" />
+            </div>
+            <button class="btn btn-primary search-courses-btn">Search for Courses</button>
+        </div>
 
       <br/>
 
@@ -47,9 +53,11 @@
               <div class="panel-body">
                 <div>
                   From 
-                  <strong>{{formatDate Start_date "LLL"}}</strong>
+                  <strong>{{formatDate Start_date "MMMM Do, YYYY"}}</strong>
                   to
-                  <strong>{{formatDate End_date "LLL"}}</strong>
+                  <strong>{{formatDate End_date "MMMM Do, YYYY"}}</strong>
+                  at
+                  <strong>{{Begin_time}} to {{End_time}}</strong>
                 </div>
                 <div>
                     {{#if Mon_day}}
@@ -91,7 +99,7 @@
       <hr/>
 
       <h2>Step 2: Submit your Courses</h2>
-      <h3>The following are your courses</h3>
+      <h3>Your Selected Courses</h3>
 
       <script id="selected-courses-template" type="text/x-handlebars-template">
         {{#if courses}}
@@ -107,9 +115,11 @@
               <div class="panel-body">
                 <div>
                   From 
-                  <strong>{{formatDate Start_date "LLL"}}</strong>
+                  <strong>{{formatDate Start_date "MMMM Do, YYYY"}}</strong>
                   to
-                  <strong>{{formatDate End_date "LLL"}}</strong>
+                  <strong>{{formatDate End_date "MMMM Do, YYYY"}}</strong>
+                  at
+                  <strong>{{Begin_time}} to {{End_time}}</strong>
                 </div>
                 <div>
                     {{#if Mon_day}}
@@ -141,7 +151,7 @@
 
         {{else}}
           <div class="alert alert-danger">
-            No classes selected. Please search above and add to your selected courses list.
+            No courses selected. Please search above and add to your selected courses list.
           </div>
         {{/if}}
       </script>
