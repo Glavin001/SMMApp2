@@ -161,7 +161,7 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
     };
 
     var coursesToCalendar = function(courses, callback) {
-        console.log(courses);
+        //console.log(courses);
         // Generate iCalendar file
         var calendar = new icalendar.iCalendar();
         // Replace PRODID
@@ -187,11 +187,16 @@ MongoClient.connect('mongodb://'+nconf.get('database:hostname')+':'+nconf.get('d
             var result = results[0] || { 'courses': [] };
             var courses = result.courses;
 
-            coursesToCalendar(courses, function(calendar) {
-                res.header("Content-Type", "text/calendar; charset=utf-8");
-                res.header("Content-Disposition", "inline; filename=calendar.ics");
-                res.end(calendar.toString());
-            });
+            try {
+                coursesToCalendar(courses, function(calendar) {
+                    res.header("Content-Type", "text/calendar; charset=utf-8");
+                    res.header("Content-Disposition", "inline; filename=calendar.ics");
+                    res.end(calendar.toString());
+                });
+            } catch (e) {
+                res.json({"error": e.message });
+            }
+
         });
 
     });

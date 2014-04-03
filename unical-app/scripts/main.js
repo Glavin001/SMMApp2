@@ -125,8 +125,19 @@ $(document).ready(function() {
         };
 
         $submitBtn.click(function() {
-            submitCourses(function(result) {
-                console.log(result);
+            $('a#calendarURL').text("Please wait...");
+            submitCourses(function(data) {
+                if (data && data.url) {
+                    var calendarURL = window.location.origin + data.url;
+                    
+                    console.log(calendarURL);
+                    console.log(data);
+
+                    // Display data
+                    $('a#calendarURL').text(calendarURL).attr('href', calendarURL);
+                } else {
+                    $('a#calendarURL').text("Please submit above and wait.");
+                }
             });
         });
 
