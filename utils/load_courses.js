@@ -9,7 +9,7 @@ var Sequelize = require('sequelize');
 var async = require('async');
 var _ = require('lodash');
 
-var conf = require('../server/default.config.json');
+var conf = require('../api-server/default.config.json');
 
 program
     .version(pkg.version)
@@ -78,22 +78,22 @@ var normalizeRow = function(row) {
     if ( _.contains(d, 'M') ) { // Monday
         row.Mon_day = '1';
     }
-    else if ( _.contains(d, 'T') ) { // Tuesday
+    if ( _.contains(d, 'T') ) { // Tuesday
         row.Tue_day = '1';
     }
-    else if ( _.contains(d, 'W') ) { // Wednesday
+    if ( _.contains(d, 'W') ) { // Wednesday
         row.Wed_day = '1';
     }
-    else if ( _.contains(d, 'R') ) { // Thursday
+    if ( _.contains(d, 'R') ) { // Thursday
         row.Thu_day = '1';
     }
-    else if ( _.contains(d, 'F') ) { // Friday
+    if ( _.contains(d, 'F') ) { // Friday
         row.Fri_day = '1';
     }
-    else if ( _.contains(d, 'S') ) { // Saturday
+    if ( _.contains(d, 'S') ) { // Saturday
         row.Sat_day = '1';
     }
-    else if ( _.contains(d, 'U') ) { // Sunday
+    if ( _.contains(d, 'U') ) { // Sunday
         row.Sun_day = '1';
     }
     delete row.days;
@@ -140,7 +140,7 @@ csv()
             port: program['database:port']
         });
 
-        var Course = sequelize.import(path.resolve(__dirname, "../server/models/course"));
+        var Course = sequelize.import(path.resolve(__dirname, "../api-server/models/course"));
 
         sequelize.sync({ force: true })
         .success(function() {
